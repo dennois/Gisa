@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Telemetry\TelemetryInitializer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Telemetry\" />
+    <Folder Include="wwwroot\components\" />
+  </ItemGroup>
+
 </Project>
