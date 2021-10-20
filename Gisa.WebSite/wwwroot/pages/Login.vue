@@ -1,5 +1,5 @@
 <template>
-    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0" style="background-color: #d0d0ce">
         <div class="container">
             <div class="card login-card">
                 <div class="row no-gutters">

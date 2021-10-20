@@ -1,35 +1,22 @@
 const version = '0.0.7';
 
-// httpVueLoader.httpRequest = function(url) {
-//   return new Promise((function (resolve, reject) {
-//     // $.get(url + '?v=' + version).done(resolve).fail(reject);
-//     $.get(url + '?v=' + version).done(function (data) {
-//       resolve(data);
-//       console.log(url, data);
-//     }).fail(reject);
-//   }).bind(this));
-// };
 function httpVueLoaderAppendVersion(path) {
   return httpVueLoader(path + '?v=' + version);
 }
 
 Vue.directive('mask', VueTheMask.mask);
-Vue.component('input-mask', VueTheMask.TheMask);
-Vue.component('v-money', VMoney.Money);
-Vue.component('topbar-menu', httpVueLoaderAppendVersion('components/TopbarMenu.vue'));
-Vue.component('login-validation', httpVueLoaderAppendVersion('components/LoginValidation.vue'));
-Vue.component('contratante-contatos', httpVueLoaderAppendVersion('components/ContratanteContatos.vue'));
-Vue.component('contrato-propostas', httpVueLoaderAppendVersion('components/ContratoPropostas.vue'));
-Vue.component('modal-propostas', httpVueLoaderAppendVersion('components/ModalPropostas.vue'));
-Vue.component('opcoes-envio-boleto', httpVueLoaderAppendVersion('components/OpcoesEnvioBoleto.vue'));
-Vue.component('atualizacao-cadastro', httpVueLoaderAppendVersion('components/AtualizacaoCadastro.vue'));
-Vue.component('opcoes-segundavia-boleto', httpVueLoaderAppendVersion('components/OpcoesSegundaViaBoleto.vue'));
-Vue.component('pesquisa', httpVueLoaderAppendVersion('components/Pesquisa.vue'));
+Vue.component('topbar-menu', httpVueLoader('components/TopbarMenu.vue'));
+Vue.component('sidebar-menu', httpVueLoader('components/SidebarMenu.vue'));
 
 Vue.filter('money', function (value) {
   if (!value) return '';
   return value.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
 });
+
+var id = document.getElementById("drawflow");
+const editor = new Drawflow(id);
+editor.start();
+
 
 const store = {
   localizerStrings: {},
@@ -69,19 +56,21 @@ const router = new VueRouter({
   routes: [
         { path: '*', component: httpVueLoaderAppendVersion('pages/Login.vue') },
         { path: '/', component: httpVueLoaderAppendVersion('pages/Login.vue') },
+        { path: '/associado', component: httpVueLoader('pages/Associado/Cadastro.vue') },
+        { path: '/workflow', component: httpVueLoader('pages/Workflow/Cadastro.vue') },
   ]
 });
 
 router.beforeEach(function (to, from, next) {
-    debugger;
-    // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login'];
-    const authRequired = !publicPages.includes(to.path);
-    const loggedIn = localStorage.getItem('user');
+    //debugger;
+    //// redirect to login page if not logged in and trying to access a restricted page
+    //const publicPages = ['/login'];
+    //const authRequired = !publicPages.includes(to.path);
+    //const loggedIn = localStorage.getItem('user');
 
-    if (authRequired && !loggedIn) {
-        return next('/login');
-    }
+    //if (authRequired && !loggedIn) {
+    //    return next('/login');
+    //}
 
     next();
 });
