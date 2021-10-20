@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="Telemetry\" />
     <Folder Include="wwwroot\components\" />
-    <Folder Include="wwwroot\pages\Associado\" />
   </ItemGroup>
 
 </Project>

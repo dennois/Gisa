@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?e9hpfz');
-  src:  url('fonts/icomoon.eot?e9hpfz#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?e9hpfz') format('truetype'),
-    url('fonts/icomoon.woff?e9hpfz') format('woff'),
-    url('fonts/icomoon.svg?e9hpfz#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?uqriir');
+  src:  url('fonts/icomoon.eot?uqriir#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?uqriir') format('truetype'),
+    url('fonts/icomoon.woff?uqriir') format('woff'),
+    url('fonts/icomoon.svg?uqriir#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-checkmark:before {
+  content: "\e926";
+}
+.icon-aid-kit:before {
+  content: "\e925";
+}
+.icon-profile:before {
+  content: "\e920";
+}
+.icon-lab:before {
+  content: "\e90c";
+}
 .icon-alert-triangle:before {
   content: "\e900";
 }
@@ -72,9 +84,6 @@
 }
 .icon-link-2:before {
   content: "\e914";
-}
-.icon-log-in:before {
-  content: "\e90c";
 }
 .icon-log-out:before {
   content: "\e90d";

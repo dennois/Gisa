@@ -1,19 +1,27 @@
 <template>
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" v-if="exibir">
         <div class="sidebar-sticky pt-0">
-            <ul class="nav flex-column">
+            <ul class="flex-column pl-2 nav">
                 <li class="nav-item">
-                    <a class="nav-link collapsed text-truncate" href="#submenuReport" data-toggle="collapse" data-target="#submenuAdministrative">
-                        <i class="icon-users"></i>
-                        Dados cadatrais
-                    </a>
+                    <router-link to="/associado" class="nav-link">
+                        <i class="icon-profile"></i>
+                        Dados cadastrais
+                    </router-link>
                 </li>
             </ul>
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item">
-                    <router-link to="/Workflow" class="nav-link">
-                        <i class="icon-users"></i>
-                        Workflow
+                    <router-link to="/consultas" class="nav-link">
+                        <i class="icon-aid-kit"></i>
+                        Consultas
+                    </router-link>
+                </li>
+            </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item">
+                    <router-link to="/exames" class="nav-link">
+                        <i class="icon-lab"></i>
+                        Exames
                     </router-link>
                 </li>
             </ul>

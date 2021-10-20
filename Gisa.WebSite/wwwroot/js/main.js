@@ -13,10 +13,6 @@ Vue.filter('money', function (value) {
   return value.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
 });
 
-var id = document.getElementById("drawflow");
-const editor = new Drawflow(id);
-editor.start();
-
 
 const store = {
   localizerStrings: {},
@@ -31,6 +27,7 @@ const store = {
     masked: false
   }
 };
+
 
 function localizer(key) {
   return store.localizerStrings[key] || key;
@@ -57,6 +54,8 @@ const router = new VueRouter({
         { path: '*', component: httpVueLoaderAppendVersion('pages/Login.vue') },
         { path: '/', component: httpVueLoaderAppendVersion('pages/Login.vue') },
         { path: '/associado', component: httpVueLoader('pages/Associado/Cadastro.vue') },
+        { path: '/consultas', component: httpVueLoader('pages/Associado/Consulta.vue') },
+        { path: '/exames', component: httpVueLoader('pages/Associado/Exame.vue') },
         { path: '/workflow', component: httpVueLoader('pages/Workflow/Cadastro.vue') },
   ]
 });
