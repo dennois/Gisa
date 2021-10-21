@@ -166,3 +166,8 @@ body {
 	border-left: 0;
 	border-top: 0;
 }
+
+.btn-primary {
+	background-color: #d21447!important;
+	border-color: #d21447!important;
+}

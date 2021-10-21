@@ -25,6 +25,14 @@
                     </router-link>
                 </li>
             </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item">
+                    <router-link to="/workflow" class="nav-link">
+                        <i class="icon-cogs"></i>
+                        Workflow
+                    </router-link>
+                </li>
+            </ul>
         </div>
     </nav>
 </template>

@@ -1,36 +1,49 @@
 <template>
-    <div id="drawflow"></div>
+    <div>
+        <topbar-menu></topbar-menu>
+        <div class="container-fluid">
+            <div class="row">
+                <sidebar-menu></sidebar-menu>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                    <div class="pb-4">
+                        <form v-if="contractor" class="needs-validation" @submit.prevent="save()">
+                            <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                <iframe class="embed-responsive-item" src="dataflow/index.html" allowfullscreen></iframe>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
-    import Drawflow from 'drawflow'
-    import styleDrawflow from 'drawflow/dist/drawflow.min.css'
-
-
-    export default {
-        name: 'App',
+    module.exports = {
         data: function () {
             return {
-                nodes: [
-                    { id: 1, x: 140, y: 270, name: 'Start', type: 'start' },
-                    { id: 2, x: 540, y: 270, name: 'End', type: 'end' },
-                ],
-                connections: [
-                    {
-                        source: { id: 1, position: 'right' },
-                        destination: { id: 2, position: 'left' },
-                        id: 1,
-                        type: 'pass',
-                    },
-                ],
+                contractor: null,
+                providers: null,
+                alert: null
             };
         },
         methods: {
-            handleChartSave(nodes, connections) {
+            save: function () {
+
             },
-            handleEditNode(node) {
-            },
-            handleEditConnection(connection) {
-            },
+            removerAlert: function () {
+                this.alert = null;
+                clearInterval(this.interval);
+            }
+        },
+        created: function () {
+            this.contractor = {
+                "id": 0,
+                "provider": "",
+                "codigoExterno": "",
+                "nome": "",
+                "peso": "",
+                "ativo": ""
+            }
         }
-    };
+    }
 </script>

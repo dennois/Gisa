@@ -6,29 +6,13 @@
                 <sidebar-menu></sidebar-menu>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                     <div class="pb-4">
-                        <div v-if="!contractor" class="d-flex justify-content-center">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                        <form v-if="contractor" class="needs-validation" @submit.prevent="save()">
+                        <form class="needs-validation" @submit.prevent="save()">
                             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h1 class="h2">Consultas</h1>
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <button type="submit" class="btn btn-sm btn-primary">
-                                        {{localizer('Save')}}
+                                        Agendar consulta
                                     </button>
-                                </div>
-                            </div>
-                            <div id="divAlert" v-if="alert" class="alert animate__animated animate__fadeIn" :class="'alert-' + alert.type" role="alert">
-                                <ul class="m-0">
-                                    <li v-for="msg in alert.content">{{localizer(msg)}}</li>
-                                </ul>
-                            </div>
-                            <div v-if="contractor.id" class="row">
-                                <div class="col-md-12">
-                                    <label>Id</label>
-                                    <input type="text" v-model="contractor.id" class="form-control" placeholder="" readonly>
                                 </div>
                             </div>
                             <div class="row">
