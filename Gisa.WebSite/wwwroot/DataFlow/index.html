@@ -17,9 +17,12 @@
     <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="../libs/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/main.css" rel="stylesheet" />
 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Workflow</h1> <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn btn-sm btn-secondary" onclick="editor.clearModuleSelected()" style="margin-right:10px;">Limpar</div>
+            <div class="btn btn-sm btn-primary" onclick="Export()">Salvar</div>
         </div>
     </div>
     <div class="wrapper">
@@ -37,22 +40,19 @@
                 <i class="fas fa-at"></i><span> Email</span>
             </div>
             <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="fim">
-                <i class="fas fa-bullseye"></i><span>  Processo inicial</span>
+                <i class="fas fa-bullseye"></i><span>  Processo final</span>
             </div>
         </div>
         <div class="col-right">
             <div class="menu">
                 <ul>
-                    <li onclick="editor.changeModule('Home'); changeModule(event);" class="selected">Fluxo</li>
+                    <li onclick="editor.changeModule('Home'); changeModule(event);" class="selected">Exame</li>
                 </ul>
             </div>
             <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)">
-
-                <div class="btn-export" onclick="Export()">Salvar</div>
-                <div class="btn-clear" onclick="editor.clearModuleSelected()">Limpar</div>
                 <div class="btn-lock">
-                    <i id="lock" class="fas fa-lock" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
-                    <i id="unlock" class="fas fa-lock-open" onclick="editor.editor_mode='edit'; changeMode('unlock');" style="display:none;"></i>
+                    <i id="lock" class="fas fa-lock-open" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
+                    <i id="unlock" class="fas fa-lock" onclick="editor.editor_mode='edit'; changeMode('unlock');" style="display:none;"></i>
                 </div>
                 <div class="bar-zoom">
                     <i class="fas fa-search-minus" onclick="editor.zoom_out()"></i>
@@ -81,8 +81,8 @@
         // Events!
         editor.on('nodeCreated', function (id) {
             if (editor.drawflow.drawflow.Home.data[id].name == 'aprovacao') {
-                $('#node-' + id + ' .output_1').addClass('outputVerdadeiro');
-                $('#node-' + id + ' .output_2').addClass('outputFalso');
+                $('#node-' + id + ' .output_1').removeClass("outputFalso").addClass('outputVerdadeiro');
+                $('#node-' + id + ' .output_2').removeClass("outputVerdadeiro").addClass('outputFalso');
             }
             console.log("Node created " + id);
         })
@@ -122,11 +122,12 @@
             console.log(connection);
         })
         editor.on('connectionUpdated', function (connection) {
-            var id = connection.output_id.split('-')[1];
-            if (editor.drawflow.drawflow.Home.data[id].name == 'aprovacao') {
-                $('.node_out_node-' + id + '.output_1  path').addClass('main-pathVerdadeiro')
-                $('.node_out_node-' + id + '.output_2  path').addClass('main-pathFalso')
-            }
+            //var id = connection.output_id.split('-')[1];
+            
+            //if (editor.drawflow.drawflow.Home.data[id].name == 'aprovacao') {
+            //    $('.node_out_node-' + id + '.output_1  path').addClass('main-pathVerdadeiro')
+            //    $('.node_out_node-' + id + '.output_2  path').addClass('main-pathFalso')
+            //}
         })
 
         editor.on('connectionRemoved', function (connection) {
@@ -212,64 +213,64 @@
             switch (name) {
                 case 'aprovacao':
                     var aprovacao = `
-                                            <div>
-                                              <div class="title-box"><i class="fa fa-thumbs-up"></i> Aprovação</div>
-                                                <div class="box">
-                             <p>Exibir para associado</p>
+                                                    <div>
+                                                      <div class="title-box"><i class="fa fa-thumbs-up"></i> Aprovação</div>
+                                                        <div class="box">
+                                     <p>Exibir para associado</p>
 <select id="ExibirAssociado" df-exibir_associado>
 <option value="Nao">Não</option>
-                                        <option value="Sim">Sim</option>
+                                                <option value="Sim">Sim</option>
 </select>
 <p>Texto para exibição</p>
-                                                <input type="text" df-exibir_descricao>
+                                                        <input type="text" df-exibir_descricao>
 <p>Procedimento</p>
-                                                <input type="text" df-procedimento>
-                                     <p>Área responsável</p>
+                                                        <input type="text" df-procedimento>
+                                             <p>Área responsável</p>
 <select id="area_responsavel" df-area_responsavel>
-                                        <option value="Agendamento">Agendamento</option>
-                                      <option value="Financeiro">Financeiro</option>
-                                      <option value="Laboratorio">Laboratório</option>
-                                      <option value="Pericia" selected>Perícia</option>
+                                                <option value="Agendamento">Agendamento</option>
+                                              <option value="Financeiro">Financeiro</option>
+                                              <option value="Laboratorio">Laboratório</option>
+                                              <option value="Pericia" selected>Perícia</option>
 </select>
-                                                </div>
-                                            </div>
-                                            `;
+                                                        </div>
+                                                    </div>
+                                                    `;
                     editor.addNode('aprovacao', 1, 2, pos_x, pos_y, 'aprovacao', {}, aprovacao, false, true);
                     break;
                 case 'sms':
                     var sms = `
-                                              <div>
-                                                <div class="title-box">
-                                                    <i class="fa fa-comment"></i> SMS</div>
-                                              </div> `;
+                                                      <div>
+                                                        <div class="title-box">
+                                                            <i class="fa fa-comment"></i> SMS</div>
+                                                      </div> `;
                     editor.addNode('sms', 1, 0, pos_x, pos_y, 'sms', {}, sms);
                     break;
                 case 'inicio':
                     var inicio = `
-                                              <div>
-                                                <div class="title-box"><i class="fa fa-cogs "></i> Processo inicial</div>
-                                                <div class="box">
-                                                  <p>Descrição</p>
-                                                <input type="text" df-name>
-                                                </div>
-                                              </div>
-                                              `;
+                                                      <div>
+                                                        <div class="title-box"><i class="fa fa-cogs "></i> Processo inicial</div>
+                                                        <div class="box">
+                                                          <p>Descrição</p>
+                                                        <input type="text" df-name>
+                                                        </div>
+                                                      </div>
+                                                      `;
                     editor.addNode('inicio', 0, 1, pos_x, pos_y, 'inicio', { "name": '' }, inicio);
                     break;
                 case 'email':
                     var email = `
-                                                <div>
-                                                  <div class="title-box"><i class="fas fa-at"></i> Email </div>
-                                                </div>
-                                                `;
+                                                        <div>
+                                                          <div class="title-box"><i class="fas fa-at"></i> Email </div>
+                                                        </div>
+                                                        `;
                     editor.addNode('email', 1, 0, pos_x, pos_y, 'email', {}, email);
                     break;
                 case 'fim':
                     var fim = `
-                                                <div>
-                                                  <div class="title-box"><i class="fas fa-bullseye"></i> Processo Final </div>
-                                                </div>
-                                                `;
+                                                        <div>
+                                                          <div class="title-box"><i class="fas fa-bullseye"></i> Processo Final </div>
+                                                        </div>
+                                                        `;
                     editor.addNode('fim', 1, 0, pos_x, pos_y, 'fim', {}, fim);
                     break;
                 default:
