@@ -9,7 +9,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Swashbuckle.AspNetCore.Swagger;
 using System.Threading.Tasks;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
 
 namespace Gisa.WebApi
 {
@@ -26,6 +29,29 @@ namespace Gisa.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            #region Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "GISA - Gestão Integral da Saúde do Associado",
+                        Version = PlatformServices.Default.Application.ApplicationVersion,
+                        Description = "GISA - API REST",
+                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                        {
+                            Name = "PUC Minas"
+                        }
+                    });
+
+                string pathApplication = PlatformServices.Default.Application.ApplicationBasePath;
+                string nameAplication = PlatformServices.Default.Application.ApplicationName;
+                string pathXmlDoc = Path.Combine(pathApplication, $"{nameAplication}.xml");
+
+                c.IncludeXmlComments(pathXmlDoc);
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +71,14 @@ namespace Gisa.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            // Ativando middlewares para uso do Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
+                c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "GISA");
             });
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gisa.Domain
+namespace Gisa.Service
 {
     public class Class1
     {

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gisa.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:Gisa.WebApi.Controllers.LaboratorioController.Get">
+            <summary>
+            Retorna todos os laboratórios cadastrados.
+            </summary>
+            <returns>Lista com todos os labotarórios</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.LaboratorioController.Get(System.Int32)">
+            <summary>
+            Retorna os detalhes do laboratório inforamdo.
+            </summary>
+            <param name="id">Identificador único do laboratório</param>
+            <returns>Laboratório</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.LaboratorioController.Post(Gisa.Domain.Laboratorio)">
+            <summary>
+            Inclui um novo laboratório
+            </summary>
+            <param name="value">Objeto com as informações do laboratório a ser incluído</param>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.LaboratorioController.Put(System.Int32,Gisa.Domain.Laboratorio)">
+            <summary>
+            Atualiza as informações do laboratório
+            </summary>
+            <param name="id">Identificador único do laboratório</param>
+            <param name="value">Objeto com as informações do laboratório a ser atualizado</param>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.LaboratorioController.Delete(System.Int32)">
+            <summary>
+            Exclui o laboratório com identificador informado
+            </summary>
+            <param name="id">Identificador único do laboratório</param>
+        </member>
+    </members>
+</doc>
