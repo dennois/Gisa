@@ -1,5 +1,6 @@
 ﻿using Gisa.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Gisa.WebApi.Controllers
         /// </summary>
         /// <returns>Lista com todos os labotarórios</returns>
         [HttpGet]
+        [SwaggerOperation]
         public IEnumerable<Laboratorio> Get()
         {
             return new List<Laboratorio>();

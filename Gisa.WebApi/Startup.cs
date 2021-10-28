@@ -72,13 +72,11 @@ namespace Gisa.WebApi
             {
                 endpoints.MapControllers();
             });
-
             // Ativando middlewares para uso do Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
-                c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "GISA");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GISA");
             });
         }
     }

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Gisa.Domain
 {
-    class Exame
+    public class Exame
     {
+        public Associado Associado { get; set; }
     }
 }
