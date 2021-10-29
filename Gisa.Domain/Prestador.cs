@@ -7,5 +7,7 @@ namespace Gisa.Domain
     public class Prestador : BaseDomain
     {
         public string Nome { get; set; }
+
+        public IEnumerable<Especialidade> Especialidades { get; set; }
     }
 }

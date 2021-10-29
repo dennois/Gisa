@@ -13,6 +13,14 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Threading.Tasks;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
+using Gisa.Domain.Interfaces.Service;
+using Gisa.Service;
+using Gisa.Domain.Interfaces.Repository;
+using Gisa.SqlRepository;
+using FluentValidation;
+using Gisa.Domain;
+using Gisa.Domain.Validation;
+using System.Globalization;
 
 namespace Gisa.WebApi
 {
@@ -30,7 +38,8 @@ namespace Gisa.WebApi
         {
             services.AddControllers();
 
-            #region Swagger
+            #region [ Swagger ]
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
@@ -51,6 +60,37 @@ namespace Gisa.WebApi
 
                 c.IncludeXmlComments(pathXmlDoc);
             });
+
+            #endregion
+
+            #region [ Services ]
+
+            services.AddTransient<IConsultaService, ConsultaService>();
+            services.AddTransient<IConveniadoService, ConveniadoService>();
+            services.AddTransient<IEspecialidadeService, EspecialidadeService>();
+            services.AddTransient<IPrestadorService, PrestadorService>();
+            services.AddTransient<IAssociadoService, AssociadoService>();
+
+            #endregion
+
+            #region [ Repositories ]
+
+            services.AddTransient<IConsultaRepository, ConsultaRepository>();
+            services.AddTransient<IConveniadoRepository, ConveniadoRepository>();
+            services.AddTransient<IEspecialidadeRepository, EspecialidadeRepository>();
+            services.AddTransient<IPrestadorRepository, PrestadorRepository>();
+            services.AddTransient<IAssociadoRepository, AssociadoRepository>();
+
+            #endregion
+
+            #region [ Validator ]
+
+            services.AddSingleton<IValidator<Consulta>, ConsultaValidator>();
+            services.AddSingleton<IValidator<Conveniado>, ConveniadoValidator>();
+            services.AddSingleton<IValidator<Especialidade>, EspecialidadeValidator>();
+            services.AddSingleton<IValidator<Prestador>, PrestadorValidator>();
+            services.AddSingleton<IValidator<Associado>, AssociadoValidator>();
+
             #endregion
         }
 
@@ -61,6 +101,8 @@ namespace Gisa.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("pt-BR");
 
             app.UseHttpsRedirection();
 

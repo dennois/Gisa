@@ -6,7 +6,7 @@ namespace Gisa.Domain
 {
     public abstract class BaseDomain
     {
-        public int Identificador { get; set; }
+        public long Identificador { get; set; }
 
         public DateTime DataInclusao { get; set; }
 

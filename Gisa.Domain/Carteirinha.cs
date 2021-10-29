@@ -6,6 +6,8 @@ namespace Gisa.Domain
 {
     public class Carteirinha : BaseDomain
     {
+        #region [ Propriedades  ]
+
         public DateTime Validade { get; set; }
 
         public string Codigo { get; set; }
@@ -17,5 +19,17 @@ namespace Gisa.Domain
         public bool OpcaoOdontologico { get; set; }
 
         public Associado Associado { get; set; }
+
+        #endregion
+
+        #region [ Metodos ]
+
+        public decimal RecuperarValorMensalidade()
+        {
+            decimal mensalidade = 0;
+            return mensalidade;
+        }
+
+        #endregion
     }
 }

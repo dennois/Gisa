@@ -13,6 +13,6 @@ namespace Gisa.Domain
 
         public Enums.PlanoTipo Tipo { get; set; }
 
-        public decimal Valor { get; set; }
+        public decimal ValorMensalidade { get; set; }
     }
 }

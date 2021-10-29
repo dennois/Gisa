@@ -17,15 +17,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositorie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Domain", "Gisa.Domain\Gisa.Domain.csproj", "{F75DAE58-C86F-41E2-8EE6-F822E48BBDA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.MockRepository", "Gisa.MockRepository\Gisa.MockRepository.csproj", "{67DEC0AD-3297-4878-BA44-7389DEB51E4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.MockRepository", "Gisa.MockRepository\Gisa.MockRepository.csproj", "{67DEC0AD-3297-4878-BA44-7389DEB51E4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.SqlRepository", "Gisa.SqlRepository\Gisa.SqlRepository.csproj", "{387CBEF5-A02C-4E34-95BD-7CCC3833037E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.SqlRepository", "Gisa.SqlRepository\Gisa.SqlRepository.csproj", "{387CBEF5-A02C-4E34-95BD-7CCC3833037E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{B2E7BD5E-FFEA-4451-9077-9BF6F550F01F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.Service", "Gisa.Service\Gisa.Service.csproj", "{6F961334-BA52-4360-AE48-052B4FBCC82D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Service", "Gisa.Service\Gisa.Service.csproj", "{6F961334-BA52-4360-AE48-052B4FBCC82D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.SAF", "Gisa.SAF\Gisa.SAF.csproj", "{A9F5205F-4721-4707-B662-2514609676D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.SAF", "Gisa.SAF\Gisa.SAF.csproj", "{A9F5205F-4721-4707-B662-2514609676D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{46FAA39D-A5F1-4162-BB79-BC23E1651147}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.Test", "Gisa.Test\Gisa.Test.csproj", "{DDCED10A-DD30-4188-AC08-74C4699795F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,10 @@ Global
 		{A9F5205F-4721-4707-B662-2514609676D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F5205F-4721-4707-B662-2514609676D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9F5205F-4721-4707-B662-2514609676D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDCED10A-DD30-4188-AC08-74C4699795F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCED10A-DD30-4188-AC08-74C4699795F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCED10A-DD30-4188-AC08-74C4699795F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCED10A-DD30-4188-AC08-74C4699795F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +81,7 @@ Global
 		{387CBEF5-A02C-4E34-95BD-7CCC3833037E} = {D49EAB50-056A-440E-B19B-89E7857DE7CD}
 		{6F961334-BA52-4360-AE48-052B4FBCC82D} = {B2E7BD5E-FFEA-4451-9077-9BF6F550F01F}
 		{A9F5205F-4721-4707-B662-2514609676D5} = {10D16EA6-454E-4E66-9282-879C52A00C6B}
+		{DDCED10A-DD30-4188-AC08-74C4699795F2} = {46FAA39D-A5F1-4162-BB79-BC23E1651147}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {972A479E-A0C1-45C6-8B21-E5BE0578CAF1}

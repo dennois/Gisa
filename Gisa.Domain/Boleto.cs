@@ -13,6 +13,10 @@ namespace Gisa.Domain
 
         public DateTime DataVencimento { get; set; }
 
+        public int MesReferencia { get; set; }
+
+        public int AnoReferencia { get; set; }
+
         public Enums.BoletoStatus Status { get; set; }
     }
 }

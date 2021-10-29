@@ -4,5 +4,24 @@
         <name>Gisa.WebApi</name>
     </assembly>
     <members>
+        <member name="M:Gisa.WebApi.Controllers.ConsultaController.Get(System.Int64)">
+            <summary>
+            Recupera os detalhes de uma consulta
+            </summary>
+            <param name="id">Identificador da consulta</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConsultaController.Post(Gisa.Domain.Consulta)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConsultaController.Put(Gisa.Domain.Consulta)">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
+        </member>
     </members>
 </doc>
