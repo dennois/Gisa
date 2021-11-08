@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gisa.Domain;
+using Gisa.Domain.Interfaces.Integration;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using System;
@@ -16,7 +17,8 @@ namespace Gisa.Service
             IAssociadoService associadoService, 
             IEspecialidadeService especialidadeService, 
             IConveniadoService conveniadoService, 
-            IPrestadorService prestadorService)
+            IPrestadorService prestadorService,
+            IConsultarIntegration consultarIntegration)
         {
             _consultaRepository = consultaRepository;
             _consultaValidator = consultaValidator;
@@ -24,6 +26,7 @@ namespace Gisa.Service
              _especialidadeService = especialidadeService;
             _conveniadoService = conveniadoService;
             _prestadorService = prestadorService;
+            _consultarIntegration = consultarIntegration;
         }
 
         #endregion
@@ -36,6 +39,7 @@ namespace Gisa.Service
         readonly IEspecialidadeService _especialidadeService;
         readonly IConveniadoService _conveniadoService;
         readonly IPrestadorService _prestadorService;
+        readonly IConsultarIntegration _consultarIntegration;
 
         #endregion
 
@@ -75,6 +79,7 @@ namespace Gisa.Service
                 throw new ArgumentException(validate.ToString());
             }
             consulta.Status = Domain.Enum.Enums.ConsultaStatus.AguardandoAgendamento;
+            await _consultarIntegration.AgendarConsulta(consulta);
             return await _consultaRepository.IncluirAsync(consulta);
         }
 

@@ -30,6 +30,7 @@ namespace Gisa.SqlRepository
             long id = 0;
             using IDbConnection conn = Connection;
             entity.DataInclusao = DateTime.UtcNow;
+            entity.DataAlteracao = null;
             var sqlResult = await conn.InsertAsync(entity);
             if (sqlResult != null)
                 long.TryParse(sqlResult.ToString(), out id);

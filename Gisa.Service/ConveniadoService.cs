@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gisa.Domain;
+using Gisa.Domain.DTO;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using System;
@@ -40,6 +41,16 @@ namespace Gisa.Service
         }
 
         public Task<Conveniado> RecuperarPorIdAsync(long entityId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Conveniado>> RecuperarResumo(ConveniadoFiltro filtro)
+        {
+            return await  _conveniadoRepository.RecuperarResumo(filtro);
+        }
+
+        public Task ExcluirAsync(long entityId)
         {
             throw new NotImplementedException();
         }

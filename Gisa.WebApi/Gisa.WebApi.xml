@@ -13,15 +13,112 @@
         </member>
         <member name="M:Gisa.WebApi.Controllers.ConsultaController.Post(Gisa.Domain.Consulta)">
             <summary>
-            
+            Reponsável por solicitar o agendamento de consulta
             </summary>
-            <param name="value"></param>
+            <param name="consulta">Dados da consulta</param>
         </member>
-        <member name="M:Gisa.WebApi.Controllers.ConsultaController.Put(Gisa.Domain.Consulta)">
+        <member name="M:Gisa.WebApi.Controllers.ConsultaController.Cancelar(Gisa.Domain.Consulta)">
             <summary>
-            
+            Reponsável por  solicitar o cancelamento da consulta
             </summary>
-            <param name="value"></param>
+            <param name="consulta">Dados da consulta</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Get(System.Int64)">
+            <summary>
+            Recupera os detalhes de um conveniado
+            </summary>
+            <param name="id">Identificador único do conveniado</param>
+            <returns>Dados do conveniado</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Filtrar(Gisa.Domain.DTO.ConveniadoFiltro)">
+            <summary>
+            Recupera uma lista de conveniados
+            </summary>
+            <param name="filtro">Filtro para os conveniados</param>
+            <returns>Lista de conveniados</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Post(Gisa.Domain.Conveniado)">
+            <summary>
+            Inclui um novo conveniado
+            </summary>
+            <param name="conveniado">Dados do conveniado a ser incluído</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Put(Gisa.Domain.Conveniado)">
+            <summary>
+            Atualiza os dados de um conveniado
+            </summary>
+            <param name="value">Dados do conveniado</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Delete(System.Int64)">
+            <summary>
+            Exclui um conveniado
+            </summary>
+            <param name="id">Identificador único do conveniado</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.EspecialidadeController.Get">
+            <summary>
+            Recupera todas as especialidades
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.EspecialidadeController.Get(System.Int32)">
+            <summary>
+            Recupera os detalhes de uma especialidade
+            </summary>
+            <param name="id">Identificador único da especialidade</param>
+            <returns>Detalhes da especialidade</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.EspecialidadeController.Post(Gisa.Domain.Especialidade)">
+            <summary>
+            Inclui uma nova especialidade
+            </summary>
+            <param name="especialidade">Dados da especialidade a ser incluída</param>
+            <returns>Detalhes da especialidade</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.EspecialidadeController.Put(Gisa.Domain.Especialidade)">
+            <summary>
+            Atualiza os dados de uma especialidade
+            </summary>
+            <param especialidade="value">Dados da especialidade</param>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.EspecialidadeController.Delete(System.Int64)">
+            <summary>
+            Exclui uma especialidade
+            </summary>
+            <param name="id">Identificador único da especialidade</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.PrestadorController.Get(System.Int64)">
+            <summary>
+            Recupera os detalhes de um prestador
+            </summary>
+            <param name="id">Identificador único do prestador</param>
+            <returns>Dados do prestador</returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.PrestadorController.Post(Gisa.Domain.Prestador)">
+            <summary>
+            Inclui um novo prestador
+            </summary>
+            <param name="prestador">Dados do prestador a ser incluído</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.PrestadorController.Put(Gisa.Domain.Prestador)">
+            <summary>
+            Atualiza os dados de um prestador
+            </summary>
+            <param name="prestador">Dados do prestador</param>
+            <returns></returns>
+        </member>
+        <member name="M:Gisa.WebApi.Controllers.PrestadorController.Delete(System.Int64)">
+            <summary>
+            Exclui um prestador
+            </summary>
+            <param name="id">Identificador único do prestador</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

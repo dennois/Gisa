@@ -105,7 +105,7 @@ namespace Gisa.Test
 
 
             Consulta consulta = new Consulta(associado, especialidade, conveniado, prestador, agendamento, anamnese, prescricaoMedica, status);
-            consultaService = new ConsultaService(null, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object);
+            consultaService = new ConsultaService(null, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, null);
             Assert.ThrowsAsync<ArgumentException>(async () => await consultaService.AgendarAsync(consulta));
         }
 
@@ -176,7 +176,7 @@ namespace Gisa.Test
 
 
             Consulta consulta = new Consulta(associado, especialidade, conveniado, prestador, agendamento, anamnese, prescricaoMedica, status);
-            consultaService = new ConsultaService(consultaRepository.Object, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object);
+            consultaService = new ConsultaService(consultaRepository.Object, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, null);
             consulta = consultaService.AgendarAsync(consulta).Result;
 
             Assert.Greater(consulta.Identificador, 0);

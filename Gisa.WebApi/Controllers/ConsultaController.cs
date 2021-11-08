@@ -40,14 +40,22 @@ namespace Gisa.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Consulta>> Get(long id)
         {
-            var consulta = await _consultaService.RecuperarPorIdAsync(id);
+            Consulta consulta = null;
+            try
+            {
+                consulta = await _consultaService.RecuperarPorIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return consulta != null ? (ActionResult)Ok(consulta) : NoContent();
         }
 
         /// <summary>
         /// Reponsável por solicitar o agendamento de consulta
         /// </summary>
-        /// <param name="value">Dados da consulta</param>
+        /// <param name="consulta">Dados da consulta</param>
         [HttpPost]
         public async Task<ActionResult<Consulta>> Post([FromBody] Consulta consulta)
         {
@@ -63,13 +71,22 @@ namespace Gisa.WebApi.Controllers
         }
 
         /// <summary>
-        /// Reponsável por atualizar as informações da consulta
+        /// Reponsável por  solicitar o cancelamento da consulta
         /// </summary>
-        /// <param name="value">Dados da consulta</param>
-        [HttpPut("{id}")]
-        public async void Put([FromBody] Consulta value)
+        /// <param name="consulta">Dados da consulta</param>
+        /// <returns></returns>
+        [HttpPut("Cancelar")]
+        public async Task<ActionResult> Cancelar([FromBody] Consulta consulta)
         {
-            await _consultaService.AtualizarAsync(value);
+            try
+            {
+                await _consultaService.AtualizarAsync(consulta);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         #endregion

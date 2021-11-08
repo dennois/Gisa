@@ -11,6 +11,10 @@ namespace Gisa.Domain.Interfaces.Service
 
         public Task<Especialidade> AtualizarAsync(Especialidade especialidade);
 
+        public Task ExcluirAsync(long entityId);
+
         public Task<Especialidade> RecuperarPorIdAsync(long entityId);
+
+        public Task<IEnumerable<Especialidade>> RecuperarTudo();
     }
 }

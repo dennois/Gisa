@@ -43,5 +43,10 @@ namespace Gisa.Service
         {
             throw new NotImplementedException();
         }
+
+        public Task ExcluirAsync(long entityId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

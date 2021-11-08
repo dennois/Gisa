@@ -12,5 +12,7 @@ namespace Gisa.Domain.Interfaces.Service
         public Task<Prestador> AtualizarAsync(Prestador prestador);
 
         public Task<Prestador> RecuperarPorIdAsync(long entityId);
+
+        public Task ExcluirAsync(long entityId);
     }
 }

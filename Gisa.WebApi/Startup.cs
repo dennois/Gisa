@@ -21,6 +21,9 @@ using FluentValidation;
 using Gisa.Domain;
 using Gisa.Domain.Validation;
 using System.Globalization;
+using Microsoft.Extensions.Caching.Memory;
+using Gisa.Domain.Interfaces.Integration;
+using Gisa.SAF;
 
 namespace Gisa.WebApi
 {
@@ -63,6 +66,13 @@ namespace Gisa.WebApi
 
             #endregion
 
+            #region [ Integration ]
+
+            services.AddTransient<IEspecialidadeIntegration, EspecialidadeIntegration>();
+            services.AddTransient<IConsultarIntegration, ConsultarIntegration>();
+
+            #endregion
+
             #region [ Services ]
 
             services.AddTransient<IConsultaService, ConsultaService>();
@@ -92,6 +102,15 @@ namespace Gisa.WebApi
             services.AddSingleton<IValidator<Associado>, AssociadoValidator>();
 
             #endregion
+
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("RedisConnectionString");
+            });
+
+            services.AddSingleton<IMemoryCache, MemoryCache>();
+            Gisa.SqlRepository.Map.DapperMap.RegisterDapperMapper();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
