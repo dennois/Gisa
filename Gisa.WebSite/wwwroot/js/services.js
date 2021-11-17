@@ -50,5 +50,23 @@ const api = {
 		return new Promise((resolve, reject) => {
 			this.ajax(options).then(data => resolve(data || defaultData)).catch(reject);
 		});
+	},
+	Login: function (usuario, senha) {
+		return $.ajax({
+			url: webApiUrl + "/api/login/login/",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify({
+				Login: usuario,
+				Senha: senha
+			})
+		});
+	},
+	EspecialidadesRecuperar: function (tipo) {
+		return $.ajax({
+			url: webApiUrl + "/api/especialidade",
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
 	}
 };

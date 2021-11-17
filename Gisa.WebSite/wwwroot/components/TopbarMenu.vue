@@ -8,7 +8,7 @@
     </button>
     <ul class="navbar-nav px-3">
       <li class="nav-item text-nowrap">
-        <a class="nav-link" :href="logoutUrl"><i class="icon-log-out"></i>Sair</a>
+        <a class="nav-link" :href="logoutUrl" @click="logout"><i class="icon-log-out"></i>Sair</a>
       </li>
     </ul>
   </nav>
@@ -21,9 +21,14 @@ module.exports = {
         logoutUrl: '',
         exibir: true
     };
-  },
+    },
+    methods: {
+        logout: function () {
+            alert(1);
+            localStorage.removeItem('currentUser');
+        }
+    },
     created: function () {
-      //  this.exibir = localStorage.getItem("autenticado");
     }
 }
 </script>

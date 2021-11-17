@@ -8,30 +8,35 @@
                     <div class="pb-4">
                         <form class="needs-validation" @submit.prevent="save()">
                             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                                <h1 class="h2">Consultas</h1>
+                                <h1 class="h2">Consulta Agendar</h1>
                                 <div class="btn-toolbar mb-2 mb-md-0">
                                     <button type="submit" class="btn btn-sm btn-primary">
-                                        Agendar consulta
+                                        Agendar
+                                    </button>
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        Agendar
                                     </button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>{{localizer('Name')}}</label>
-                                    <input type="text" v-model="contractor.nome" class="form-control" placeholder="" required>
+                                    <label>Tipo</label>
+                                    <div class="input-group">
+                                        <select v-model="contractor.provider" class="custom-select d-block" required>
+                                            <option value="">{{localizer('Choose')}}...</option>
+                                            <option v-for="tipo in ConveniadoTipo" :value="tipo.Tipo">
+                                                {{tipo.Nome}}
+                                            </option>
+                                        </select>
+                                        <div v-if="!ConveniadoTipo" class="input-group-append">
+                                            <span class="input-group-text">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label>{{localizer('CC-ExternalId')}}</label>
-                                    <input type="text" v-model="contractor.codigoExterno" class="form-control" placeholder="">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>{{localizer('Peso')}}</label>
-                                    <input type="number" v-model="contractor.peso" class="form-control" placeholder="" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label>{{localizer('provider')}}</label>
+                                    <label>Especialidade</label>
                                     <div class="input-group">
                                         <select v-model="contractor.provider" class="custom-select d-block" required>
                                             <option value="">{{localizer('Choose')}}...</option>
@@ -64,29 +69,6 @@
                 </main>
             </div>
         </div>
-        <div v-if="carteiras" class="table-responsive">
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>{{localizer('Name')}}</th>
-                        <th>{{localizer('CC-ExternalId')}}</th>
-                        <th>{{localizer('contractor')}}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="cc in carteiras">
-                        <td>{{cc.nome}}</td>
-                        <td>{{cc.codigoExterno}}</td>
-                        <td>{{getContratanteNome(cc.contratante)}}</td>
-                        <td>
-                            <router-link :to="'/wallet/' + cc.id" class="btn btn-sm btn-outline-secondary">
-                                <i class="icon-edit"></i>
-                            </router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 </template>
 
@@ -94,7 +76,8 @@
     module.exports = {
         data: function () {
             return {
-                contractor: null,
+                ConveniadoTipo: 
+                    [{ "Nome": "Clinica", "Tipo": "C" }, { "Nome": "Hospital", "Tipo": "H" }, { "Nome": "Laboratorio", "Tipo": "Q" }],
                 providers: null,
                 alert: null
             };
@@ -117,6 +100,13 @@
                 "peso": "",
                 "ativo": ""
             }
+
+            debugger;
+            api.EspecialidadesRecuperar('8888').then((data) => {
+                debugger;
+            }, (error) => {
+                alert(error.responseText);
+            });
         }
     }
 </script>

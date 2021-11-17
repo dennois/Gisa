@@ -1,5 +1,6 @@
 ﻿using Gisa.Domain;
 using Gisa.Domain.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
@@ -13,6 +14,7 @@ namespace Gisa.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EspecialidadeController : ControllerBase
     {
         #region [ Construtor ]
@@ -43,20 +45,23 @@ namespace Gisa.WebApi.Controllers
         {
             IEnumerable<Especialidade> especialidades = null;
             string cache = await _cache.GetStringAsync("Gisa.Especialidade");
-            if (!String.IsNullOrEmpty(cache))
-            {
-                especialidades = await _especialidadeService.RecuperarTudo();
-                await _cache.SetStringAsync("Gisa.Especialidade", Newtonsoft.Json.JsonConvert.SerializeObject(especialidades), cacheOptions);
-            }
             try
             {
-                
+                if (String.IsNullOrEmpty(cache))
+                {
+                    especialidades = await _especialidadeService.RecuperarTudo();
+                    await _cache.SetStringAsync("Gisa.Especialidade", Newtonsoft.Json.JsonConvert.SerializeObject(especialidades), cacheOptions);
+                }
+                else
+                {
+                    especialidades = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Especialidade>>(cache);
+                }
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            return especialidades != null ? (ActionResult)Ok(especialidades) : NoContent();
+            return especialidades != null ? (ActionResult)Ok(especialidades.OrderBy(p => p.Nome)) : NoContent();
         }
 
         /// <summary>

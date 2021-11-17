@@ -12,6 +12,7 @@
     <Folder Include="Telemetry\" />
     <Folder Include="wwwroot\components\" />
     <Folder Include="wwwroot\DataFlow\" />
+    <Folder Include="wwwroot\pages\Conveniado\" />
   </ItemGroup>
 
 </Project>

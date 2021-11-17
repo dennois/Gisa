@@ -50,11 +50,11 @@ namespace Gisa.Service
 
         public async Task<IEnumerable<Especialidade>> RecuperarTudo()
         {
-            List<Especialidade> result = new List<Especialidade>();
-            result.Add(new Especialidade() { Codigo = "qqq" });
-            result.Add(new Especialidade() { Codigo = "222" });
-            return result;
-            //return await _especialidadeRepository.RecuperarTudo();
+            //List<Especialidade> result = new List<Especialidade>();
+            //result.Add(new Especialidade() { Codigo = "qqq" });
+            //result.Add(new Especialidade() { Codigo = "222" });
+            //return result;
+            return await _especialidadeRepository.RecuperarTudo();
         }
 
         public Task ExcluirAsync(long entityId)

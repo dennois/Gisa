@@ -171,3 +171,22 @@ body {
 	background-color: #d21447!important;
 	border-color: #d21447!important;
 }
+
+.home {
+	background: url('../images/bckgrd.jpg') 50% 50% no-repeat;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 100%;
+	padding-right: 0px;
+	padding-left: 0px;
+	margin-right: auto;
+	margin-left: auto;
+	opacity: 0.5;
+}
+
+
+.home-main {
+	padding-right: 0px!important;
+	padding-left: 0px!important;
+}

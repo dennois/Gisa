@@ -53,22 +53,39 @@ const router = new VueRouter({
   routes: [
         { path: '*', component: httpVueLoaderAppendVersion('pages/Login.vue') },
         { path: '/', component: httpVueLoaderAppendVersion('pages/Login.vue') },
-        { path: '/associado', component: httpVueLoader('pages/Associado/Cadastro.vue') },
+        { path: '/associado', component: httpVueLoader('pages/Associado/Cadastro.vue'), meta: { authorize: ['ADMIN'] } },
         { path: '/consultas', component: httpVueLoader('pages/Associado/Consulta.vue') },
+        { path: '/home', component: httpVueLoader('pages/Home.vue') },
+        { path: '/consultaAgendar', component: httpVueLoader('pages/Associado/ConsultaAgendar.vue') },
         { path: '/exames', component: httpVueLoader('pages/Associado/Exame.vue') },
         { path: '/workflow', component: httpVueLoader('pages/WorkFlow/Cadastro.vue') },
   ]
 });
 
 router.beforeEach(function (to, from, next) {
-    //debugger;
-    //// redirect to login page if not logged in and trying to access a restricted page
-    //const publicPages = ['/login'];
-    //const authRequired = !publicPages.includes(to.path);
-    //const loggedIn = localStorage.getItem('user');
+    // redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/login'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('currentUser');
 
-    //if (authRequired && !loggedIn) {
-    //    return next('/login');
+    if (authRequired && !loggedIn) {
+        return next('/login');
+    }
+    //debugger
+    //const { authorize } = to.meta;
+    //const currentUser = authenticationService.currentUserValue;
+
+    //if (authorize) {
+    //    if (!currentUser) {
+    //        // not logged in so redirect to login page with the return url
+    //        return next({ path: '/login', query: { returnUrl: to.path } });
+    //    }
+
+    //    // check if route is restricted by role
+    //    if (authorize.length && !authorize.includes(currentUser.role)) {
+    //        // role not authorised so redirect to home page
+    //        return next({ path: '/' });
+    //    }
     //}
 
     next();

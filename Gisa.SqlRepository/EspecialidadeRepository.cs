@@ -1,6 +1,7 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dommel;
 using Gisa.Domain;
 using Gisa.Domain.Interfaces.Repository;
+using Gisa.SqlRepository.Entity;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ namespace Gisa.SqlRepository
         {
             using IDbConnection connection = Connection;
 
-            return await connection.GetAllAsync<Especialidade>();
+            var especialidadeEntities = await connection.GetAllAsync<Especialidade>();
+
+            return (IEnumerable<Especialidade>)especialidadeEntities;
         }
     }
 }

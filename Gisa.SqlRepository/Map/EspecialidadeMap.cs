@@ -1,5 +1,6 @@
 ﻿using Dapper.FluentMap.Dommel.Mapping;
 using Gisa.Domain;
+using Gisa.SqlRepository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;

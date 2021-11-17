@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.SAF", "Gisa.SAF\Gisa.S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{46FAA39D-A5F1-4162-BB79-BC23E1651147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.Test", "Gisa.Test\Gisa.Test.csproj", "{DDCED10A-DD30-4188-AC08-74C4699795F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Test", "Gisa.Test\Gisa.Test.csproj", "{DDCED10A-DD30-4188-AC08-74C4699795F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -24,6 +24,9 @@ using System.Globalization;
 using Microsoft.Extensions.Caching.Memory;
 using Gisa.Domain.Interfaces.Integration;
 using Gisa.SAF;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Gisa.WebApi
 {
@@ -40,6 +43,25 @@ namespace Gisa.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("GisaSecret"));
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             #region [ Swagger ]
 
@@ -75,11 +97,13 @@ namespace Gisa.WebApi
 
             #region [ Services ]
 
+            services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IConsultaService, ConsultaService>();
             services.AddTransient<IConveniadoService, ConveniadoService>();
             services.AddTransient<IEspecialidadeService, EspecialidadeService>();
             services.AddTransient<IPrestadorService, PrestadorService>();
             services.AddTransient<IAssociadoService, AssociadoService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
 
             #endregion
 
@@ -90,6 +114,7 @@ namespace Gisa.WebApi
             services.AddTransient<IEspecialidadeRepository, EspecialidadeRepository>();
             services.AddTransient<IPrestadorRepository, PrestadorRepository>();
             services.AddTransient<IAssociadoRepository, AssociadoRepository>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 
             #endregion
 
@@ -127,6 +152,12 @@ namespace Gisa.WebApi
 
             app.UseRouting();
 
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

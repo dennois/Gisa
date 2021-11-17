@@ -15,11 +15,11 @@
                             <form method="POST" accept-charset="UTF-8" class="m-0" @submit.prevent="login()">
                                 <div class="form-group">
                                     <label for="email" class="sr-only">Usuário</label>
-                                    <input type="text" name="email" id="email" class="form-control" placeholder="Usuário" required>
+                                    <input type="text" name="email" id="email" class="form-control" placeholder="Usuário"  v-model="usuario.login" required>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label for="password" class="sr-only">Senha</label>
-                                    <input type="password" name="password" id="password" class="form-control" placeholder="Senha" required>
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="Senha" v-model="usuario.senha" required>
                                 </div>
                                 <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login">
                             </form>
@@ -39,12 +39,12 @@
 <script>
 module.exports = {
   data: function () {
-    var pin = this.$route.params.pin;
     return {
-      onValidation: pin ? true : false,
-      identificador: pin ? pinToString(pin) : '',
-      acceptedPrivacyPolicy: false,
-      alertText: null
+        usuario: {
+            "login": "",
+            "senha": ""
+        },
+        token: null
     };
   },
   methods: {
@@ -59,8 +59,15 @@ module.exports = {
       }
     },
     login: function () {
-        alert(1);
-      this.onValidation = true;
+        api.Login(this.usuario.login, this.usuario.senha).then((data) => {
+            this.token = data;
+            localStorage.setItem('token', this.token.token);
+            localStorage.setItem('currentUser', JSON.stringify(this.token.user));
+            this.$router.push('/home');
+        }, (error) => {
+            alert(error.responseText);
+        });
+        this.onValidation = true;
     }
   }
 }

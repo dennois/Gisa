@@ -18,6 +18,8 @@ namespace Gisa.Domain
 
         public string Numero { get; set; }
 
+        public string CEP { get; set; }
+
         public double? Latitude { get; set; }
 
         public double? Longitude { get; set; }
