@@ -6,13 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Gisa.Service
 {
-    public class TokenService : ITokenService
+    public class AtenticacaoService : IAtenticacaoService
     {
-        public TokenService(IConfiguration configuration)
+        public AtenticacaoService(IConfiguration configuration)
         {
             this._configuration = configuration;
         }
@@ -34,6 +35,21 @@ namespace Gisa.Service
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public string CriptografarSenha(string senha)
+        {
+            var sha1 = new SHA1CryptoServiceProvider();
+            var encodedValue = Encoding.UTF8.GetBytes(senha);
+            var encryptedPassword = sha1.ComputeHash(encodedValue);
+
+            var sb = new StringBuilder();
+            foreach (var caracter in encryptedPassword)
+            {
+                sb.Append(caracter.ToString("X2"));
+            }
+
+            return sb.ToString();
         }
     }
 }

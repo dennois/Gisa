@@ -31,7 +31,7 @@
             <param name="id">Identificador único do conveniado</param>
             <returns>Dados do conveniado</returns>
         </member>
-        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Filtrar(Gisa.Domain.DTO.ConveniadoFiltro)">
+        <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Filtrar(System.String,System.String)">
             <summary>
             Recupera uma lista de conveniados
             </summary>

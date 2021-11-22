@@ -97,7 +97,7 @@ namespace Gisa.WebApi
 
             #region [ Services ]
 
-            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IAtenticacaoService, AtenticacaoService>();
             services.AddTransient<IConsultaService, ConsultaService>();
             services.AddTransient<IConveniadoService, ConveniadoService>();
             services.AddTransient<IEspecialidadeService, EspecialidadeService>();

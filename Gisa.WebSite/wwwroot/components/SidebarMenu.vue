@@ -19,6 +19,14 @@
             </ul>
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item">
+                    <router-link to="/conveniado" class="nav-link">
+                        <i class="icon-handshake-o"></i>
+                        Conveniados
+                    </router-link>
+                </li>
+            </ul>
+            <ul class="flex-column pl-2 nav">
+                <li class="nav-item">
                     <router-link to="/exames" class="nav-link">
                         <i class="icon-lab"></i>
                         Exames

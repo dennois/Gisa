@@ -6,6 +6,8 @@
                 <sidebar-menu></sidebar-menu>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 home-main">
                     <div class="vh-100 home">
+                        <h1 class="display-4 text-center" style="font-weight:bold">Bem-vindo</h1>
+                        <h1 class="display-5 text-center" style="font-weight: bold;" v-text="usuarioNome"></h1>
                     </div>
                 </main>
             </div>
@@ -17,9 +19,7 @@
     module.exports = {
         data: function () {
             return {
-                contractor: null,
-                providers: null,
-                alert: null
+                usuarioNome: ""
             };
         },
         methods: {
@@ -32,14 +32,8 @@
             }
         },
         created: function () {
-            this.contractor = {
-                "id": 0,
-                "provider": "",
-                "codigoExterno": "",
-                "nome": "",
-                "peso": "",
-                "ativo": ""
-            }
+            const loggedIn = JSON.parse(localStorage.getItem('currentUser'));
+            this.usuarioNome =  loggedIn.nome;
         }
     }
 </script>

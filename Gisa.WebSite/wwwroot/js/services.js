@@ -68,5 +68,36 @@ const api = {
 			type: "Get",
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
-	}
+	},
+	EspecialidadesRecuperarTudo: function () {
+		return $.ajax({
+			url: webApiUrl + "/api/especialidade",
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
+	ConveniadosFiltrar: function (nome, tipo) {
+		return $.ajax({
+			url: webApiUrl + "/api/conveniado/filtrar?Nome=" + nome + "&tipo=" + tipo,
+			type: "GET",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
+	ConveniadoRecuperarDetalhe: function (identificador) {
+		return $.ajax({
+			url: webApiUrl + "/api/conveniado/" + identificador,
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
+	ConveniadoSalvar: function (conveniado) {
+		return $.ajax({
+			type: conveniado.identificador ? "PUT" : "POST",
+			url: webApiUrl + "/api/conveniado/",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify(conveniado),
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
 };

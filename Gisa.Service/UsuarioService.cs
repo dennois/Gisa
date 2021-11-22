@@ -1,4 +1,5 @@
 ﻿using Gisa.Domain;
+using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,15 @@ namespace Gisa.Service
 {
     public class UsuarioService : IUsuarioService
     {
+        public UsuarioService(IUsuarioRepository usuarioRepository, IAtenticacaoService tokenService)
+        {
+            _usuarioRepository = usuarioRepository;
+            _tokenService = tokenService;
+        }
+
+        readonly IUsuarioRepository _usuarioRepository;
+        readonly IAtenticacaoService _tokenService;
+
         public Task<Usuario> AtualizarAsync(Usuario associado)
         {
             throw new NotImplementedException();
@@ -21,7 +31,8 @@ namespace Gisa.Service
 
         public async Task<Usuario> RecuperarAsync(string usuario, string senha)
         {
-            return new Usuario() { Nome = "Dennis Molina", Login = usuario, Senha = senha , Perfil = "Admin"};
+            string senhaCriptografada = _tokenService.CriptografarSenha(senha);
+            return await _usuarioRepository.RecuperarPorLogin(usuario, senhaCriptografada);
         }
 
         public Task<Usuario> RecuperarPorIdAsync(long entityId)

@@ -15,13 +15,13 @@ namespace Gisa.WebApi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        public LoginController(ITokenService tokenService, IUsuarioService usuarioService)
+        public LoginController(IAtenticacaoService tokenService, IUsuarioService usuarioService)
         {
             _tokenService = tokenService;
             _usuarioService = usuarioService;
         }
 
-        readonly ITokenService _tokenService;
+        readonly IAtenticacaoService _tokenService;
         readonly IUsuarioService _usuarioService;
 
         [HttpPost]

@@ -59,6 +59,8 @@ const router = new VueRouter({
         { path: '/consultaAgendar', component: httpVueLoader('pages/Associado/ConsultaAgendar.vue') },
         { path: '/exames', component: httpVueLoader('pages/Associado/Exame.vue') },
         { path: '/workflow', component: httpVueLoader('pages/WorkFlow/Cadastro.vue') },
+        { path: '/conveniado', component: httpVueLoader('pages/Conveniado/List.vue') },
+        { path: '/conveniado/:id', component: httpVueLoader('pages/Conveniado/CreateEdit.vue') },
   ]
 });
 

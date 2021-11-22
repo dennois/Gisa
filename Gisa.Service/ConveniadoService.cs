@@ -14,10 +14,11 @@ namespace Gisa.Service
     {
         #region [ Construtor ]
 
-        public ConveniadoService(IConveniadoRepository conveniadoRepository, IValidator<Conveniado> conveniadoValidator)
+        public ConveniadoService(IConveniadoRepository conveniadoRepository, IEspecialidadeRepository especialidadeRepository, IValidator<Conveniado> conveniadoValidator)
         {
             _conveniadoRepository = conveniadoRepository;
             _conveniadoValidator = conveniadoValidator;
+            _especialidadeRepository = especialidadeRepository;
         }
 
 
@@ -27,22 +28,26 @@ namespace Gisa.Service
 
         readonly IConveniadoRepository _conveniadoRepository;
         readonly IValidator<Conveniado> _conveniadoValidator;
+        readonly IEspecialidadeRepository _especialidadeRepository;
 
         #endregion
 
-        public Task<Conveniado> AtualizarAsync(Conveniado conveniado)
+        public async Task<Conveniado> AtualizarAsync(Conveniado conveniado)
         {
-            throw new NotImplementedException();
+            return await _conveniadoRepository.AtualizarAsync(conveniado);
         }
 
-        public Task<Conveniado> IncluirAsync(Conveniado conveniado)
+        public async Task<Conveniado> IncluirAsync(Conveniado conveniado)
         {
-            throw new NotImplementedException();
+            conveniado = await _conveniadoRepository.IncluirAsync(conveniado);
+            return conveniado;
         }
 
-        public Task<Conveniado> RecuperarPorIdAsync(long entityId)
+        public async Task<Conveniado> RecuperarPorIdAsync(long entityId)
         {
-            throw new NotImplementedException();
+            Conveniado conveniado = await _conveniadoRepository.RecuperarPorIdAsync(entityId);
+            conveniado.Especialidades = await _especialidadeRepository.RecuperarPorConveniado(entityId);
+            return conveniado;
         }
 
         public async Task<IEnumerable<Conveniado>> RecuperarResumo(ConveniadoFiltro filtro)

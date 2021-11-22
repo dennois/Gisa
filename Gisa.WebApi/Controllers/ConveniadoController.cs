@@ -1,5 +1,6 @@
 ﻿using Gisa.Domain;
 using Gisa.Domain.DTO;
+using Gisa.Domain.Enum;
 using Gisa.Domain.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,8 +57,12 @@ namespace Gisa.WebApi.Controllers
         /// <param name="filtro">Filtro para os conveniados</param>
         /// <returns>Lista de conveniados</returns>
         [HttpGet("Filtrar")]
-        public async Task<IEnumerable<Conveniado>> Filtrar([FromQuery] ConveniadoFiltro filtro)
+        public async Task<IEnumerable<Conveniado>> Filtrar(string nome, string tipo)
         {
+            ConveniadoFiltro filtro = new ConveniadoFiltro();
+            filtro.Nome = nome;
+            if(!string.IsNullOrWhiteSpace(tipo))
+                filtro.ConveniadoTipo = (Enums.ConveniadoTipo)tipo.ToCharArray()[0];
             return await _conveniadoService.RecuperarResumo(filtro);
         }
 

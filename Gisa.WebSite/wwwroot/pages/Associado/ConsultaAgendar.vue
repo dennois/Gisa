@@ -100,8 +100,6 @@
                 "peso": "",
                 "ativo": ""
             }
-
-            debugger;
             api.EspecialidadesRecuperar('8888').then((data) => {
                 debugger;
             }, (error) => {

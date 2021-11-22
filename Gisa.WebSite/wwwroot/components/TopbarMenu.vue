@@ -24,7 +24,6 @@ module.exports = {
     },
     methods: {
         logout: function () {
-            alert(1);
             localStorage.removeItem('currentUser');
         }
     },
