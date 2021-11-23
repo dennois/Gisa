@@ -31,12 +31,16 @@ namespace Gisa.SqlRepository
 
         public override async Task<Conveniado> RecuperarPorIdAsync(long entityId)
         {
+            Conveniado conveniado = null;
             using IDbConnection conn = Connection;
             var entity = await conn.GetAsync<ConveniadoEntity>(entityId);
             if (entity != null)
-                return (Conveniado)entity;
-            else
-                return null;
+            {
+                conveniado = (Conveniado)entity;
+                conveniado.Endereco = new Localizacao();
+                conveniado.Endereco.Identificador = entity.EnderecoId;
+            }
+            return conveniado;
         }
 
         public override async Task<Conveniado> AtualizarAsync(Conveniado entity)

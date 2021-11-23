@@ -32,6 +32,7 @@
                                 </li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
+                                <br />
                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                     <div v-if="conveniado.identificador" class="row">
                                         <div class="col-md-12">
@@ -64,6 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <br />
                                     <div class="row">
                                         <div class="col-md-5">
                                             <select size="30" class="form-control" id="list1" multiple>
@@ -83,7 +85,53 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>CEP</label>
+                                            <div class="input-group mb-3 ">
+                                                <input type="text" v-model="conveniado.endereco.cep" class="form-control"  maxlength="9" @keypress="formatar('#####-###')">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button" @click="pesquisarEndereco">Pesquisar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <label>Logradouro</label>
+                                            <input type="text" v-model="conveniado.endereco.logradouro" class="form-control" placeholder="" maxlength="150">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>N&uacute;mero</label>
+                                            <input type="text" v-model="conveniado.endereco.numero" class="form-control" placeholder="" maxlength="3">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Complemento</label>
+                                            <input type="text" v-model="conveniado.endereco.complemento" class="form-control" placeholder="" maxlength="3">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Bairro</label>
+                                            <input type="text" v-model="conveniado.endereco.bairro" class="form-control" placeholder="" maxlength="3">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Cidade</label>
+                                            <input type="text" v-model="conveniado.endereco.cidade" class="form-control" placeholder="" maxlength="3">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Estado</label>
+                                            <input type="text" v-model="conveniado.endereco.estado" class="form-control" placeholder="" maxlength="3">
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                        <iframe class="embed-responsive-item" :src="mapUrl" ref="iframe" allowfullscreen></iframe>
+                                    </div>
+                                </div>
                             </div>
 
                             <div id="divAlert" v-if="alert" class="alert animate__animated animate__fadeIn" :class="'alert-' + alert.type" role="alert">
@@ -106,12 +154,12 @@
                 conveniado: null,
                 ConveniadoTipo: [{ "Nome": "Clinica", "Tipo": 67 }, { "Nome": "Hospital", "Tipo": 72 }, { "Nome": "Laboratorio", "Tipo": 81 }],
                 list1: [],
-                alert: null
+                alert: null,
+                mapUrl: "maps/map.html"
             };
         },
         methods: {
             save: function () {
-                console.log(this.conveniado);
                 api.ConveniadoSalvar(this.conveniado).then((data) => {
                     if (data.id) {
                         this.alert = { type: 'success', content: ['conveniado-Saved'] };
@@ -124,6 +172,22 @@
                         this.alert = { type: 'warning', content: ['ErrorSendingRequest'] };
                     }
                     this.interval = setInterval(this.removerAlert, 5000);
+                }, (error) => {
+                    this.alert = { type: 'danger', content: [error.responseText] };
+                });
+            },
+            pesquisarEndereco: function () {
+                api.EnderecoPesquisarCEP(this.conveniado.endereco.cep).then((data) => {
+                    if (data != null && data.results != null && data.results.length > 0) {
+                        this.conveniado.endereco.logradouro = data.results[0].address.streetName;
+                        this.conveniado.endereco.estado = data.results[0].address.countrySubdivision;
+                        this.conveniado.endereco.cidade = data.results[0].address.municipality;
+                        this.conveniado.endereco.bairro = data.results[0].address.municipalitySubdivision;
+                        this.conveniado.endereco.cep = data.results[0].address.extendedPostalCode;
+                        this.conveniado.endereco.latitude = data.results[0].position.lat;
+                        this.conveniado.endereco.longitude = data.results[0].position.lon;
+                        this.mapUrl = "maps/map.html?lat=" + this.conveniado.endereco.latitude + "&lon=" + this.conveniado.endereco.longitude;
+                    }
                 }, (error) => {
                     this.alert = { type: 'danger', content: [error.responseText] };
                 });
@@ -170,6 +234,15 @@
                     this.list1.push(this.conveniado.especialidades[i]);
                 }
                 this.conveniado.especialidades = [];
+            },
+            formatar: function (mascara) {
+                var i = this.conveniado.endereco.cep.length;
+                var saida = mascara.substring(0, 1);
+                var texto = mascara.substring(i)
+
+                if (texto.substring(0, 1) != saida) {
+                    this.conveniado.endereco.cep += texto.substring(0, 1);
+                }
             }
         },
         created: function () {
@@ -181,6 +254,10 @@
             if (this.$route.params.id != '0') {
                 api.ConveniadoRecuperarDetalhe(this.$route.params.id).then((data) => {
                     this.conveniado = data;
+                    if (this.conveniado.endereco.latitude != null)
+                        this.mapUrl = "maps/map.html?lat=" + this.conveniado.endereco.latitude + "&lon=" + this.conveniado.endereco.longitude;
+                    else
+                        this.mapUrl = "maps/map.html";
                     for (var i = 0; i < this.conveniado.especialidades.length; i++) {
                         var del = this.conveniado.especialidades[i];
                         for (var index = 0; index < this.list1.length; index++) {

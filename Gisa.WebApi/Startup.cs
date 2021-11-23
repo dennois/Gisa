@@ -115,6 +115,7 @@ namespace Gisa.WebApi
             services.AddTransient<IPrestadorRepository, PrestadorRepository>();
             services.AddTransient<IAssociadoRepository, AssociadoRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<ILocalizacaoRepository, LocalizacaoRepository>();
 
             #endregion
 

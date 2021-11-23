@@ -100,4 +100,10 @@ const api = {
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
+	EnderecoPesquisarCEP: function (cep) {
+		return $.ajax({
+			url: "https://atlas.microsoft.com/search/address/structured/json?subscription-key=uIiHoU0rZseJU2Zg_iFON99tKW3h_B5U-e0g34aOtmA&api-version=1.0&language=pt-BR&countryCode=BR&postalCode=" + cep,
+			type: "Get"
+		});
+	},
 };

@@ -19,14 +19,20 @@ namespace Gisa.SqlRepository
         {
         }
 
-        public void ExcluirEspecialidadeConveniado(long conveniadoIdentificador)
+        public async void ExcluirEspecialidadeConveniado(long conveniadoIdentificador)
         {
-            throw new NotImplementedException();
+            using IDbConnection conn = Connection;
+            var sql = @"DELETE CONVENIADOESPECIALIDADE WHERE Conveniado = @Conveniado";
+
+            await conn.ExecuteAsync(sql, new { Conveniado = conveniadoIdentificador });
         }
 
-        public void InserirEspecialidadeConveniado(IEnumerable<Especialidade> especialidades, long conveniadoIdentificador)
+        public async void InserirEspecialidadeConveniado(Especialidade especialidade, long conveniadoIdentificador)
         {
-            throw new NotImplementedException();
+            using IDbConnection conn = Connection;
+            var sql = @"INSERT CONVENIADOESPECIALIDADE (Conveniado,Especialidade) VALUES(@Conveniado,@Especialidade)";
+
+            await conn.ExecuteAsync(sql, new { Especialidade = especialidade.Identificador, Conveniado = conveniadoIdentificador });
         }
 
         public async Task<IEnumerable<Especialidade>> RecuperarPorConveniado(long conveniadoIdentificador)

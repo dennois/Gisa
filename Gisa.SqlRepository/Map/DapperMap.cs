@@ -15,6 +15,7 @@ namespace Gisa.SqlRepository.Map
             {
                 config.AddMap(new ConveniadoMap());
                 config.AddMap(new EspecialidadeMap());
+                config.AddMap(new LocalizacaoMap());
 
                 config.ForDommel();
             });
