@@ -22,7 +22,7 @@
                                 <div class="col-md-6">
                                     <label>Tipo</label>
                                     <div class="input-group">
-                                        <select v-model="contractor.provider" class="custom-select d-block" required>
+                                        <select v-model="filtro.conveniadoTipo" class="custom-select d-block" @change="recuperarEspecialidades()" required>
                                             <option value="">{{localizer('Choose')}}...</option>
                                             <option v-for="tipo in ConveniadoTipo" :value="tipo.Tipo">
                                                 {{tipo.Nome}}
@@ -38,13 +38,13 @@
                                 <div class="col-md-6">
                                     <label>Especialidade</label>
                                     <div class="input-group">
-                                        <select v-model="contractor.provider" class="custom-select d-block" required>
+                                        <select v-model="filtro.especialidade" class="custom-select d-block" :disabled="filtro.conveniadoTipo == ''" required>
                                             <option value="">{{localizer('Choose')}}...</option>
-                                            <option v-for="provider in providers" :value="provider.id">
-                                                {{provider.alias}}
+                                            <option v-for="item in especialidades" :value="item.identificador">
+                                                {{item.nome}}
                                             </option>
                                         </select>
-                                        <div v-if="!providers" class="input-group-append">
+                                        <div v-if="!especialidades" class="input-group-append">
                                             <span class="input-group-text">
                                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                             </span>
@@ -54,12 +54,24 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>{{localizer('status')}}</label>
+                                    <label>Estado</label>
                                     <div class="input-group">
-                                        <select v-model="contractor.ativo" class="custom-select d-block" required>
+                                        <select v-model="filtro.estado" class="custom-select d-block" @change="recuperarCidades()" :disabled="filtro.especialidade == ''" required>
                                             <option value="">{{localizer('Choose')}}...</option>
-                                            <option value="true">{{localizer('active')}}</option>
-                                            <option value="false">{{localizer('inactive')}}</option>
+                                            <option v-for="item in estados" :value="item">
+                                                {{item}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Cidade</label>
+                                    <div class="input-group">
+                                        <select v-model="filtro.cidade" class="custom-select d-block" :disabled="filtro.estado == ''" required>
+                                            <option value="">{{localizer('Choose')}}...</option>
+                                            <option v-for="item in cidades" :value="item">
+                                                {{item}}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -78,13 +90,41 @@
             return {
                 ConveniadoTipo: 
                     [{ "Nome": "Clinica", "Tipo": "C" }, { "Nome": "Hospital", "Tipo": "H" }, { "Nome": "Laboratorio", "Tipo": "Q" }],
-                providers: null,
+                especialidades: [],
+                estados: [],
+                cidades: [],
+                filtro: {"conveniadoTipo": '', "especialidade": '', "estado": '', "cidade": ''},
                 alert: null
             };
         },
         methods: {
             save: function () {
                 
+            },
+            recuperarEspecialidades: function () {
+                if (this.filtro.conveniadoTipo !== '') {
+                    api.EspecialidadesRecuperarPorTipoConveniado(this.filtro.conveniadoTipo).then((data) => {
+                        this.especialidades = data;
+                    }, (error) => {
+                        alert(error.responseText);
+                    });
+                }
+                else {
+                    this.filtro.especialidade = '';
+                    this.filtro.estado = '';
+                    this.filtro.cidade = '';
+                }
+            },
+            recuperarCidades: function () {
+                if (this.filtro.estado !== '') {
+                    api.CidadesRecuperar(this.filtro.estado).then((data) => {
+                        this.cidades = data;
+                    }, (error) => {
+                        alert(error.responseText);
+                    });
+                }
+                else
+                    this.filtro.cidade = '';
             },
             removerAlert: function () {
                 this.alert = null;
@@ -99,9 +139,9 @@
                 "nome": "",
                 "peso": "",
                 "ativo": ""
-            }
-            api.EspecialidadesRecuperar('8888').then((data) => {
-                debugger;
+            };
+            api.EstadosRecuperar().then((data) => {
+                this.estados = data;
             }, (error) => {
                 alert(error.responseText);
             });

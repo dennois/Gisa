@@ -4,6 +4,7 @@ using Gisa.Domain.Interfaces.Integration;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,6 +102,11 @@ namespace Gisa.Service
         public async Task<Consulta> RecuperarPorIdAsync(long entityId)
         {
             return await _consultaRepository.RecuperarPorIdAsync(entityId);
+        }
+
+        public async Task<IEnumerable<Consulta>> RecuperarResumoAsync(long usuarioIdentificador)
+        {
+            return await _consultaRepository.RecuperarResumoAsync(usuarioIdentificador);
         }
 
         #endregion

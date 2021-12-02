@@ -17,11 +17,16 @@ namespace Gisa.Domain
             this.Anamnese = anamnese;
             this.PrescricaoMedica = prescricaoMedica;
             this.Status = status;
+            this.Associado = new Associado();
+            this.Especialidade = new Especialidade();
+            this.Conveniado = new Conveniado();
         }
 
         public Consulta()
         {
-
+            this.Associado = new Associado();
+            this.Especialidade = new Especialidade();
+            this.Conveniado = new Conveniado();
         }
 
         public Associado Associado { get; set; }

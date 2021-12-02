@@ -7,6 +7,11 @@ namespace Gisa.Domain
 {
     public class Conveniado : BaseDomain
     {
+        public Conveniado()
+        {
+            this.Endereco = new Localizacao();
+        }
+
         public string Nome { get; set; }
 
         public string Codigo { get; set; }

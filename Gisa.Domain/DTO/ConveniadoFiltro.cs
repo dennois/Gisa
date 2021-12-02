@@ -14,6 +14,8 @@ namespace Gisa.Domain.DTO
 
         public string Nome { get; set; }
 
+        public long? Especialidade { get; set; }
+
         public Enums.ConveniadoTipo ConveniadoTipo { get; set; }
     }
 }

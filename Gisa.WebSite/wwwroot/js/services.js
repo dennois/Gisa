@@ -76,6 +76,13 @@ const api = {
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
+	EspecialidadesRecuperarPorTipoConveniado: function (tipoConveniado) {
+		return $.ajax({
+			url: webApiUrl + "/api/especialidade/recuperar/" + tipoConveniado,
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
 	ConveniadosFiltrar: function (nome, tipo) {
 		return $.ajax({
 			url: webApiUrl + "/api/conveniado/filtrar?Nome=" + nome + "&tipo=" + tipo,
@@ -100,10 +107,41 @@ const api = {
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
+	EstadosRecuperar: function () {
+		return $.ajax({
+			url: webApiUrl + "/api/conveniado/estados",
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
+	CidadesRecuperar: function (estado) {
+		return $.ajax({
+			url: webApiUrl + "/api/conveniado/cidades/" + estado,
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
 	EnderecoPesquisarCEP: function (cep) {
 		return $.ajax({
 			url: "https://atlas.microsoft.com/search/address/structured/json?subscription-key=uIiHoU0rZseJU2Zg_iFON99tKW3h_B5U-e0g34aOtmA&api-version=1.0&language=pt-BR&countryCode=BR&postalCode=" + cep,
 			type: "Get"
+		});
+	},
+	ConsultaRecuperarRecuperar: function () {
+		return $.ajax({
+			url: webApiUrl + "/api/consulta",
+			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
+	FluxoSalvar: function (fluxo) {
+		return $.ajax({
+			type: "POST",
+			url: "https://localhost:44351/api/fluxo/",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify(fluxo),
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
 };

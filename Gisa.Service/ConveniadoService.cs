@@ -70,5 +70,15 @@ namespace Gisa.Service
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<string>> RecuperarEstados()
+        {
+            return await _localizacaoRepository.RecuperarEstados();
+        }
+
+        public async Task<IEnumerable<string>> RecuperarCidades(string estado)
+        {
+            return await _localizacaoRepository.RecuperarCidades(estado);
+        }
     }
 }

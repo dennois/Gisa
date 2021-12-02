@@ -28,6 +28,7 @@ namespace Gisa.Service
                 Subject    = new System.Security.Claims.ClaimsIdentity(new Claim[] 
                 { 
                     new Claim(ClaimTypes.Name, usuario.Nome),
+                    new Claim("Identificador", usuario.Identificador.ToString()),
                     new Claim(ClaimTypes.Role, usuario.Perfil)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),

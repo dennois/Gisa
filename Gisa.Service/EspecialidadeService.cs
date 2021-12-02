@@ -61,5 +61,10 @@ namespace Gisa.Service
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<Especialidade>> RecuperarPorConveniadoTipo(string tipoConveniado)
+        {
+            return await _especialidadeRepository.RecuperarPorConveniadoTipo(tipoConveniado);
+        }
     }
 }

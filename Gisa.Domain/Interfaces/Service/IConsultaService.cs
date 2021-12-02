@@ -12,5 +12,7 @@ namespace Gisa.Domain.Interfaces.Service
         public Task<Consulta> AtualizarAsync(Consulta consulta);
 
         public Task<Consulta> RecuperarPorIdAsync(long entityId);
+
+        public Task<IEnumerable<Consulta>> RecuperarResumoAsync(long usuarioIdentificador);
     }
 }

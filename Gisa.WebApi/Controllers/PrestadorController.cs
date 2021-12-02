@@ -1,5 +1,6 @@
 ﻿using Gisa.Domain;
 using Gisa.Domain.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
@@ -13,6 +14,7 @@ namespace Gisa.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PrestadorController : ControllerBase
     {
         #region [ Construtor ]

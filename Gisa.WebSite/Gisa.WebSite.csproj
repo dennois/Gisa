@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="Telemetry\" />
-    <Folder Include="wwwroot\DataFlow\" />
     <Folder Include="wwwroot\maps\" />
   </ItemGroup>
 

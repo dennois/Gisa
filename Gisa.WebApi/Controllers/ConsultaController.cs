@@ -1,6 +1,7 @@
 ﻿using Gisa.Domain;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace Gisa.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConsultaController : ControllerBase
+    [Authorize]
+    public class ConsultaController : ApiControllerBase
     {
         #region [ Construtor ]
         
@@ -50,6 +52,21 @@ namespace Gisa.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
             return consulta != null ? (ActionResult)Ok(consulta) : NoContent();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Consulta>> GetLista()
+        {
+            IEnumerable<Consulta> consultas = null;
+            try
+            {
+                consultas = await _consultaService.RecuperarResumoAsync(this.UsuarioIdentificador);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return consultas != null ? (ActionResult)Ok(consultas) : NoContent();
         }
 
         /// <summary>

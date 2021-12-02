@@ -53,6 +53,24 @@ namespace Gisa.SqlRepository
             return result.ToList();
         }
 
+        public async Task<IEnumerable<Especialidade>> RecuperarPorConveniadoTipo(string tipoConveniado)
+        {
+            using IDbConnection conn = Connection;
+            var sql = @"SELECT DISTINCT
+	                        E.*
+                        FROM
+	                        CONVENIADO AS C INNER JOIN
+	                        CONVENIADOESPECIALIDADE AS CE ON C.IDENTIFICADOR = CE.CONVENIADO INNER JOIN
+	                        ESPECIALIDADE E ON CE.ESPECIALIDADE = E.IDENTIFICADOR
+                        WHERE
+	                        C.TIPO = @TIPO
+                        ORDER BY
+	                        E.NOME";
+
+            var result = await conn.QueryAsync<Especialidade>(sql, new { TIPO = tipoConveniado });
+            return result.ToList();
+        }
+
         public async Task<IEnumerable<Especialidade>> RecuperarTudo()
         {
             using IDbConnection connection = Connection;

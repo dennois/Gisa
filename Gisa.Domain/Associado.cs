@@ -13,6 +13,8 @@ namespace Gisa.Domain
 
         public string RG { get; set; }
 
+        public long Usuario { get; set; }
+
         public DateTime DataNascimento { get; set; }
 
         public Enums.AssociadoStatus Status { get; set; }

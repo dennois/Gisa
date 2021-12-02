@@ -16,5 +16,7 @@ namespace Gisa.Domain.Interfaces.Service
         public Task<Especialidade> RecuperarPorIdAsync(long entityId);
 
         public Task<IEnumerable<Especialidade>> RecuperarTudo();
+
+        public Task<IEnumerable<Especialidade>> RecuperarPorConveniadoTipo(string tipoConveniado);
     }
 }

@@ -64,6 +64,21 @@ namespace Gisa.WebApi.Controllers
             return especialidades != null ? (ActionResult)Ok(especialidades.OrderBy(p => p.Nome)) : NoContent();
         }
 
+        [HttpGet("recuperar/{tipoConveniado}")]
+        public async Task<ActionResult<IEnumerable<Especialidade>>> GetPorTipo(string tipoConveniado)
+        {
+            IEnumerable<Especialidade> especialidades = null;
+            try
+            {
+                especialidades = await _especialidadeService.RecuperarPorConveniadoTipo(tipoConveniado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return especialidades != null ? (ActionResult)Ok(especialidades.OrderBy(p => p.Nome)) : NoContent();
+        }
+
         /// <summary>
         /// Recupera os detalhes de uma especialidade
         /// </summary>

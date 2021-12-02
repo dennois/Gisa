@@ -11,6 +11,8 @@ namespace Gisa.Domain.Interfaces.Repository
 
         public Task<IEnumerable<Especialidade>> RecuperarPorConveniado(long conveniadoIdentificador);
 
+        public Task<IEnumerable<Especialidade>> RecuperarPorConveniadoTipo(string tipoConveniado);
+
         public void InserirEspecialidadeConveniado(Especialidade especialidade, long conveniadoIdentificador);
 
         public void ExcluirEspecialidadeConveniado(long conveniadoIdentificador);

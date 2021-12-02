@@ -2,6 +2,7 @@
 using Gisa.Domain.DTO;
 using Gisa.Domain.Enum;
 using Gisa.Domain.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Gisa.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConveniadoController : ControllerBase
     {
         #region [ Construtor ]
@@ -121,6 +123,37 @@ namespace Gisa.WebApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+        [HttpGet("estados")]
+        public async Task<ActionResult<IEnumerable<string>>> GetEstados()
+        {
+            IEnumerable<string> estados = null;
+            try
+            {
+                estados =  await _conveniadoService.RecuperarEstados();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return estados != null ? (ActionResult)Ok(estados) : NoContent();
+        }
+
+        [HttpGet("cidades/{estado}")]
+        public async Task<ActionResult<IEnumerable<string>>> GetCidades(string estado)
+        {
+            IEnumerable<string> estados = null;
+            try
+            {
+                estados = await _conveniadoService.RecuperarCidades(estado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return estados != null ? (ActionResult)Ok(estados) : NoContent();
         }
     }
 }

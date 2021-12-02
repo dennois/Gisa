@@ -28,6 +28,12 @@ const store = {
   }
 };
 
+Vue.filter('formatDate', function (value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/yyyy hh:mm')
+    }
+});
+
 
 function localizer(key) {
   return store.localizerStrings[key] || key;
