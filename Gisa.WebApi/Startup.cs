@@ -104,6 +104,8 @@ namespace Gisa.WebApi
             services.AddTransient<IPrestadorService, PrestadorService>();
             services.AddTransient<IAssociadoService, AssociadoService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<IFluxoService, FluxoService>();
+            services.AddTransient<IConsultaFluxoService, ConsultaFluxoService>();
 
             #endregion
 
@@ -116,6 +118,8 @@ namespace Gisa.WebApi
             services.AddTransient<IAssociadoRepository, AssociadoRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<ILocalizacaoRepository, LocalizacaoRepository>();
+            services.AddTransient<IFluxoRepository, FluxoRepository>();
+            services.AddTransient<IConsultaFluxoRepository, ConsultaFluxoRepository>();
 
             #endregion
 

@@ -29,9 +29,8 @@ const store = {
 };
 
 Vue.filter('formatDate', function (value) {
-    if (value) {
-        return moment(String(value)).format('DD/MM/yyyy hh:mm')
-    }
+    if (!value) return '-';
+    return moment(String(value)).format('DD/MM/yyyy hh:mm')
 });
 
 

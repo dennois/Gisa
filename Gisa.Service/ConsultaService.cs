@@ -19,7 +19,9 @@ namespace Gisa.Service
             IEspecialidadeService especialidadeService, 
             IConveniadoService conveniadoService, 
             IPrestadorService prestadorService,
-            IConsultarIntegration consultarIntegration)
+            IConsultarIntegration consultarIntegration,
+            IFluxoService fluxoService,
+            IConsultaFluxoService consultaFluxoService)
         {
             _consultaRepository = consultaRepository;
             _consultaValidator = consultaValidator;
@@ -28,6 +30,8 @@ namespace Gisa.Service
             _conveniadoService = conveniadoService;
             _prestadorService = prestadorService;
             _consultarIntegration = consultarIntegration;
+            _consultaFluxoService = consultaFluxoService;
+            _fluxoService = fluxoService;
         }
 
         #endregion
@@ -41,6 +45,8 @@ namespace Gisa.Service
         readonly IConveniadoService _conveniadoService;
         readonly IPrestadorService _prestadorService;
         readonly IConsultarIntegration _consultarIntegration;
+        readonly IConsultaFluxoService _consultaFluxoService;
+        readonly IFluxoService _fluxoService;
 
         #endregion
 
@@ -106,7 +112,17 @@ namespace Gisa.Service
 
         public async Task<IEnumerable<Consulta>> RecuperarResumoAsync(long usuarioIdentificador)
         {
-            return await _consultaRepository.RecuperarResumoAsync(usuarioIdentificador);
+            var consultas = await _consultaRepository.RecuperarResumoAsync(usuarioIdentificador);
+            if(consultas != null)
+            {
+                foreach (var item in consultas)
+                {
+                    item.Fluxo = await _fluxoService.RecuperarPorConsultaAsync(item.Identificador);
+                    if(item.Fluxo != null)
+                        item.FluxoProcesso = await _consultaFluxoService.RecuperarResumoAsync(item.Identificador);
+                }
+            }
+            return consultas;
         }
 
         #endregion

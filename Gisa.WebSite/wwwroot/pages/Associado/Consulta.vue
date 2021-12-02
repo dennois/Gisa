@@ -26,87 +26,16 @@
                                     <b>Endere&ccedil;o:</b> {{consulta.conveniado.endereco.logradouro}}, {{consulta.conveniado.endereco.numero}}  {{consulta.conveniado.endereco.complemento}} <br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                                     {{consulta.conveniado.endereco.bairro}} - {{consulta.conveniado.endereco.cep}}<br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                                     {{consulta.conveniado.endereco.cidade}} - {{consulta.conveniado.endereco.estado}}
-                                    <div class="pin" onclick="alert(1);"></div>
                                 </p>
                                 <h5 class="card-title">Status: Em agendamento</h5>
                                 <br />
-                                <ul class="timeline" id="timeline">
-                                    <li class="li complete">
+                                <ul class="timeline" id="timeline" v-if="consulta.fluxo">
+                                    <li class="li" v-for="passo in consulta.fluxo.passos" :class="recuperarPassoEstilo(consulta.fluxoProcesso,passo.Key)">
                                         <div class="timestamp">
-                                            <span class="date">11/15/2014 11:02</span>
+                                            <span class="date">{{recuperarPassoHorario(consulta.fluxoProcesso,passo.Key) | formatDate}}</span>
                                         </div>
                                         <div class="status">
-                                            <h4>Pedido solicitado</h4>
-                                        </div>
-                                    </li>
-                                    <li class="li complete">
-                                        <div class="timestamp">
-                                            <span class="date">11/15/2014 11:02</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4>Aprova&ccedil;&atilde;o m&eacute;dica</h4>
-                                        </div>
-                                    </li>
-                                    <li class="li wait">
-                                        <div class="timestamp">
-                                            <span class="date">&nbsp;</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4> Agendamento </h4>
-                                        </div>
-                                    </li>
-                                    <li class="li">
-                                        <div class="timestamp">
-                                            <span class="date">&nbsp;</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4> Autorizado </h4>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="card">
-                            <div class="card-header">
-                                Exame cl&iacute;nico
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">Exames solicitados: Hemograma/Colesterol/Triglicer&iacute;deos/Eletr&oacute;litos</p>
-                                <p class="card-text">Laborat&oacute;rio: Delboni Santo Andr&eacute;</p>
-                                <h5 class="card-title">Status da solicita&ccedil;&atilde;o: Em agendamento</h5>
-                                <br />
-                                <ul class="timeline" id="timeline">
-                                    <li class="li complete">
-                                        <div class="timestamp">
-                                            <span class="date">11/15/2014 11:02</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4>Pedido solicitado</h4>
-                                        </div>
-                                    </li>
-                                    <li class="li complete">
-                                        <div class="timestamp">
-                                            <span class="date">11/15/2014 11:02</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4>Aprova&ccedil;&atilde;o m&eacute;dica</h4>
-                                        </div>
-                                    </li>
-                                    <li class="li complete">
-                                        <div class="timestamp">
-                                            <span class="date">11/15/2014 11:02</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4> Agendamento </h4>
-                                        </div>
-                                    </li>
-                                    <li class="li complete">
-                                        <div class="timestamp">
-                                            <span class="date">11/15/2014 11:02</span>
-                                        </div>
-                                        <div class="status">
-                                            <h4> Autorizado </h4>
+                                            <h4>{{passo.Value}}</h4>
                                         </div>
                                     </li>
                                 </ul>
@@ -131,9 +60,28 @@
             save: function () {
 
             },
-            removerAlert: function () {
-                this.alert = null;
-                clearInterval(this.interval);
+            recuperarPassoHorario: function (fluxoProcesso, passoIdenticador ) {
+                var passo = fluxoProcesso.find(d => d.passo === passoIdenticador);
+                if (passo != null) {
+                    if (passo.dataFim != null) {
+                        return passo.dataFim;
+                    }
+                    if (passo.dataInicio != null) {
+                        return passo.dataInicio;
+                    }
+                }
+                return null;
+            },
+            recuperarPassoEstilo: function (fluxoProcesso, passoIdenticador) {
+                var passo = fluxoProcesso.find(d => d.passo === passoIdenticador);
+                if (passo != null && passo.status != null) {
+                    if (passo.status == "E") {
+                        return "wait";
+                    }
+                    return "complete";
+                    return passo.dataInicio;
+                }
+                return "";
             }
         },
         created: function () {

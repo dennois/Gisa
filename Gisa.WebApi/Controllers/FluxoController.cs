@@ -1,7 +1,9 @@
 ﻿using Gisa.Domain;
 using Gisa.Domain.Interfaces.Service;
+using Gisa.WebApi.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +23,12 @@ namespace Gisa.WebApi.Controllers
         readonly IFluxoService _fluxoService;
 
         [HttpPost]
-        public async Task<ActionResult<Fluxo>> Post([FromBody] Fluxo fluxo)
+        public async Task<ActionResult<Fluxo>> Post([FromBody] FluxoDTO fluxo)
         {
             try
             {
+                fluxo.Processo = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(fluxo.Processo));
+                //var b = Newtonsoft.Json.JsonConvert.DeserializeObject(fluxo.ProcessoObject);
                 _fluxoService.IncluirAsync(fluxo);
             }
             catch(Exception ex)
@@ -32,6 +36,21 @@ namespace Gisa.WebApi.Controllers
                 return BadRequest(ex.Message);
             }
             return (ActionResult)Ok(fluxo);
+        }
+
+        [HttpGet("{codigo}")]
+        public async Task<ActionResult<Fluxo>> Get(string codigo)
+        {
+            Fluxo fluxo = null;
+            try
+            {
+                fluxo = await _fluxoService.RecuperarPorCodigoAsync(codigo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return fluxo != null ? (ActionResult)Ok(fluxo) : NoContent();
         }
     }
 }

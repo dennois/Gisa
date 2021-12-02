@@ -7,6 +7,10 @@ namespace Gisa.Domain.Interfaces.Service
 {
     public interface IFluxoService
     {
-        public Task<Fluxo> IncluirAsync(Fluxo fluxo);
+        Task<Fluxo> IncluirAsync(Fluxo fluxo);
+
+        Task<Fluxo> RecuperarPorCodigoAsync(string codigo);
+
+        Task<Fluxo> RecuperarPorConsultaAsync(long consulta);
     }
 }

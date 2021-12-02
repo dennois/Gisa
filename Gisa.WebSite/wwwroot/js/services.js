@@ -144,4 +144,11 @@ const api = {
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
+	FluxoRecuperar: function (codigo) {
+		return $.ajax({
+			type: "Get",
+			url: "https://localhost:44351/api/fluxo/" + codigo,
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
 };

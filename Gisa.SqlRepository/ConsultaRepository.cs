@@ -21,6 +21,7 @@ namespace Gisa.SqlRepository
         {
             using IDbConnection conn = Connection;
             var sql = @"SELECT
+    CONS.IDENTIFICADOR,
 	CONS.AGENDAMENTO,
 	CONS.ANAMNESE,
 	CONS.PRESCRICAOMEDICA,

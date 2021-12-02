@@ -44,5 +44,9 @@ namespace Gisa.Domain
         public Enums.ConsultaStatus Status { get; set; }
 
         public string PrescricaoMedica { get; set; }
+
+        public Fluxo Fluxo { get; set; }
+
+        public IEnumerable<ConsultaFluxo> FluxoProcesso { get; set; }
     }
 }

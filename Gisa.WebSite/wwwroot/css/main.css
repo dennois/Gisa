@@ -173,7 +173,7 @@ body {
 }
 
 .home {
-	background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url('../images/bckgrd.jpg') 50% 50% no-repeat;
+	background: linear-gradient(rgba(255,255,255,.50), rgba(255,255,255,.1)), url('../images/backgroud.png') 50% 50% no-repeat;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
