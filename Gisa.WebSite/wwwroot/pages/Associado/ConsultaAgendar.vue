@@ -10,11 +10,8 @@
                             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h1 class="h2">Consulta Agendar</h1>
                                 <div class="btn-toolbar mb-2 mb-md-0">
-                                    <button type="submit" class="btn btn-sm btn-primary">
-                                        Agendar
-                                    </button>
-                                    <button type="submit" class="btn btn-sm btn-primary">
-                                        Agendar
+                                    <button type="button" @click="filtrar" class="btn btn-sm btn-primary">
+                                        Filtrar
                                     </button>
                                 </div>
                             </div>
@@ -78,7 +75,55 @@
                             </div>
                         </form>
                     </div>
+                    <div class="card mt-3" v-for="conveniado in conveniados">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h5 class="card-title">{{conveniado.nome}}</h5>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#parametroModal" @click="popup(conveniado)">
+                                        <i class="icon-calendar"></i>&nbspAgendar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b>Endere&ccedil;o:</b> {{conveniado.endereco.logradouro}}, {{conveniado.endereco.numero}}  {{conveniado.endereco.complemento}} <br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                {{conveniado.endereco.bairro}} - {{conveniado.endereco.cep}}<br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                {{conveniado.endereco.cidade}} - {{conveniado.endereco.estado}}
+                            </p>
+                        </div>
+                    </div>
                 </main>
+
+                <div>
+                    <div class="modal fade" id="parametroModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5>Agendamento em {{conveniado.nome}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label>Data agendamento</label>
+                                    <div class="date form_datetime">
+                                        <input size="16" type="text" class="dateTimeCustom" value="" readonly>
+                                        <span class="add-on dateTimeCustomButton"><i class="icon-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-outline-secondary">Cancelar</button>
+                                    <button type="button" class="btn btn-sm btn-primary">Salvar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -88,18 +133,23 @@
     module.exports = {
         data: function () {
             return {
-                ConveniadoTipo: 
+                ConveniadoTipo:
                     [{ "Nome": "Clinica", "Tipo": "C" }, { "Nome": "Hospital", "Tipo": "H" }, { "Nome": "Laboratorio", "Tipo": "Q" }],
                 especialidades: [],
                 estados: [],
                 cidades: [],
-                filtro: {"conveniadoTipo": '', "especialidade": '', "estado": '', "cidade": ''},
+                filtro: { "conveniadoTipo": '', "especialidade": '', "estado": '', "cidade": '' },
+                conveniados: [],
+                conveniado: {"nome": ""},
                 alert: null
             };
         },
         methods: {
             save: function () {
-                
+
+            },
+            popup: function (objeto) {
+                this.conveniado = objeto;
             },
             recuperarEspecialidades: function () {
                 if (this.filtro.conveniadoTipo !== '') {
@@ -126,9 +176,15 @@
                 else
                     this.filtro.cidade = '';
             },
-            removerAlert: function () {
-                this.alert = null;
-                clearInterval(this.interval);
+            filtrar: function () {
+                api.ConveniadosFiltrar('', this.filtro.conveniadoTipo, this.filtro.especialidade, this.filtro.estado, this.filtro.cidade).then((data) => {
+                    this.conveniados = data;
+                    console.log(this.conveniados);
+                    if (this.conveniados == null)
+                        Command: toastr["info"]("Não foram encontrados conveniados");
+                }, (error) => {
+                    Command: toastr["danger"](error.responseText);
+                });
             }
         },
         created: function () {

@@ -59,12 +59,17 @@ namespace Gisa.WebApi.Controllers
         /// <param name="filtro">Filtro para os conveniados</param>
         /// <returns>Lista de conveniados</returns>
         [HttpGet("Filtrar")]
-        public async Task<IEnumerable<Conveniado>> Filtrar(string nome, string tipo)
+        public async Task<IEnumerable<Conveniado>> Filtrar(string nome, string tipo, long? especialidade, string estado, string cidade)
         {
             ConveniadoFiltro filtro = new ConveniadoFiltro();
             filtro.Nome = nome;
-            if(!string.IsNullOrWhiteSpace(tipo))
+            filtro.Especialidade = especialidade;
+            if (!string.IsNullOrWhiteSpace(tipo))
                 filtro.ConveniadoTipo = (Enums.ConveniadoTipo)tipo.ToCharArray()[0];
+            if (!string.IsNullOrWhiteSpace(estado))
+                filtro.Estado = estado;
+            if (!string.IsNullOrWhiteSpace(cidade))
+                filtro.Cidade = cidade;
             return await _conveniadoService.RecuperarResumo(filtro);
         }
 

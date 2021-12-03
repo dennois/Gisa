@@ -24,19 +24,28 @@ namespace Gisa.SqlRepository
         {
             using IDbConnection conn = Connection;
             var sql = @"SELECT distinct
-	                        con.*
+	                        con.*,
+Logradouro,
+    Bairro,
+    Cidade,
+    Estado,
+    Complemento,
+    Numero,
+    CEP,
+    Latitude,
+    Longitude
                         FROM
 	                        conveniado as con inner join
 	                        ConveniadoEspecialidade as ces on con.identificador = ces.conveniado inner join
 	                        localizacao as loc on con.endereco = loc.identificador
                         where
 	                        (Nome LIKE '%' + @Nome + '%' or @Nome is null) 
-                        AND (Tipo = @Tipo OR @Tipo = '\0' or @Tipo is null)
+                        AND (Tipo = @Tipo OR @Tipo is null)
                         and (ces.especialidade = @especialidade or @especialidade is null) 
                         and (loc.estado = @estado or @estado is null)
                         and (loc.cidade = @cidade or @cidade is null)";
 
-            var result = await conn.QueryAsync<ConveniadoEntity>(sql, new { Nome = String.IsNullOrEmpty(filtro.Nome) ? string.Empty : filtro.Nome, Tipo = ((char)filtro.ConveniadoTipo).ToString(), estado = filtro.Estado, cidade = filtro.Cidade, especialidade = filtro.Especialidade });
+            var result = await conn.QueryAsync<ConveniadoEntity>(sql, new { Nome = String.IsNullOrEmpty(filtro.Nome) ? string.Empty : filtro.Nome, Tipo = filtro.ConveniadoTipo == 0 ? null : ((char)filtro.ConveniadoTipo).ToString(), estado = filtro.Estado, cidade = filtro.Cidade, especialidade = filtro.Especialidade });
             return result.Cast<Conveniado>().ToList();
         }
 

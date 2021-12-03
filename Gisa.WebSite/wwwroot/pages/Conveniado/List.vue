@@ -87,7 +87,7 @@
             filtrar: function () {
                 this.conveniados = null;
                 this.loading = true;
-                api.ConveniadosFiltrar(this.filtro.nome, this.filtro.tipo).then((data) => {
+                api.ConveniadosFiltrar(this.filtro.nome, this.filtro.tipo,'','','').then((data) => {
                     this.conveniados = data;
                 });
             },

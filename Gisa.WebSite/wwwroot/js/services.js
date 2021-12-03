@@ -83,9 +83,9 @@ const api = {
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
-	ConveniadosFiltrar: function (nome, tipo) {
+	ConveniadosFiltrar: function (nome, tipo, especialidade, estado, cidade) {
 		return $.ajax({
-			url: webApiUrl + "/api/conveniado/filtrar?Nome=" + nome + "&tipo=" + tipo,
+			url: webApiUrl + "/api/conveniado/filtrar?Nome=" + nome + "&tipo=" + tipo + "&especialidade=" + especialidade + "&estado=" + estado + "&cidade=" + cidade,
 			type: "GET",
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
