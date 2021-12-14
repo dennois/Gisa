@@ -22,8 +22,6 @@ namespace Gisa.Domain.Validation
             RuleFor(x => x.Prestador.Identificador).GreaterThan(0);
             RuleFor(x => x.Agendamento).GreaterThan(DateTime.UtcNow.AddMinutes(30));
             RuleFor(x => x.Status).Must(x => x != 0);
-            RuleFor(x => x.Anamnese).NotNull().NotEmpty();
-            RuleFor(x => x.PrescricaoMedica).NotNull().NotEmpty();
         }
 
         #endregion

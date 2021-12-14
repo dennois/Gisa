@@ -22,6 +22,11 @@ namespace Gisa.WebApi.Controllers
 
         readonly IFluxoService _fluxoService;
 
+        /// <summary>
+        /// Inclui um novo fluxo
+        /// </summary>
+        /// <param name="fluxo">Fluxo a ser incluido</param>
+        /// <returns>Fluxo com o identificador</returns>
         [HttpPost]
         public async Task<ActionResult<Fluxo>> Post([FromBody] FluxoDTO fluxo)
         {
@@ -38,6 +43,11 @@ namespace Gisa.WebApi.Controllers
             return (ActionResult)Ok(fluxo);
         }
 
+        /// <summary>
+        /// Recupera um fluxo ativo por código
+        /// </summary>
+        /// <param name="codigo">Código do fluxo</param>
+        /// <returns>Fluxo</returns>
         [HttpGet("{codigo}")]
         public async Task<ActionResult<Fluxo>> Get(string codigo)
         {

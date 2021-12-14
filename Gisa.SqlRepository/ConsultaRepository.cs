@@ -54,5 +54,38 @@ ORDER BY
             var result = await conn.QueryAsync<ConsultaEntity>(sql, new { Usuario = usuarioIdentificador });
             return result;//.Cast<Conveniado>().ToList();
         }
+
+        public override async Task<Consulta> IncluirAsync(Consulta entity)
+        {
+            using IDbConnection conn = Connection;
+            entity.DataAlteracao = DateTime.UtcNow;
+            string sql = @"INSERT INTO [dbo].[Consulta]
+           (Associado
+           ,Especialidade
+           ,Conveniado
+           ,Prestador
+            ,Agendamento
+            ,Status
+            ,Fluxo
+           ,DataInclusao)
+     VALUES
+ (@Associado
+           ,@Especialidade
+           ,@Conveniado
+           ,@Prestador
+            ,@Agendamento
+            ,@Status
+            ,@Fluxo
+           ,getutcdate())
+
+select @@identity";
+
+            var result = await conn.ExecuteScalarAsync<long>(sql, new { Associado = entity.Associado.Identificador, Especialidade = entity.Especialidade.Identificador,
+                Conveniado = entity.Conveniado.Identificador, Prestador = entity.Prestador.Identificador , Agendamento = entity.Agendamento,
+                Status = (char)entity.Status, Fluxo = entity.Fluxo.Identificador
+            });
+            entity.Identificador = Convert.ToInt64(result);
+            return entity;
+        }
     }
 }

@@ -7,12 +7,14 @@ namespace Gisa.Domain.Interfaces.Service
 {
     public interface IPrestadorService
     {
-        public Task<Prestador> IncluirAsync(Prestador prestador);
+        Task<Prestador> IncluirAsync(Prestador prestador);
 
-        public Task<Prestador> AtualizarAsync(Prestador prestador);
+        Task<Prestador> AtualizarAsync(Prestador prestador);
 
-        public Task<Prestador> RecuperarPorIdAsync(long entityId);
+        Task<Prestador> RecuperarPorIdAsync(long entityId);
 
-        public Task ExcluirAsync(long entityId);
+        Task<IEnumerable<Prestador>> RecuperarResumo(long conveniado, long? especialidade);
+
+        Task ExcluirAsync(long entityId);
     }
 }

@@ -16,7 +16,7 @@ namespace Gisa.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ConveniadoController : ControllerBase
+    public class ConveniadoController : ApiControllerBase
     {
         #region [ Construtor ]
 
@@ -98,12 +98,12 @@ namespace Gisa.WebApi.Controllers
         /// <param name="value">Dados do conveniado</param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] Conveniado value)
+        public async Task<ActionResult<Conveniado>> Put([FromBody] Conveniado value)
         {
             try
             {
-                await _conveniadoService.AtualizarAsync(value);
-                return Ok();
+                value = await _conveniadoService.AtualizarAsync(value);
+                return (ActionResult)Ok(value);
             }
             catch (Exception ex)
             {
@@ -130,7 +130,10 @@ namespace Gisa.WebApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Recupera todos os estados atendidos pela rede de conveniados
+        /// </summary>
+        /// <returns>Lista de estados</returns>
         [HttpGet("estados")]
         public async Task<ActionResult<IEnumerable<string>>> GetEstados()
         {
@@ -146,6 +149,11 @@ namespace Gisa.WebApi.Controllers
             return estados != null ? (ActionResult)Ok(estados) : NoContent();
         }
 
+        /// <summary>
+        /// Recupera todas as cidades atendidos pela rede de conveniados do estado selecionado
+        /// </summary>
+        /// <param name="estado">Estado para filtrar as cidades</param>
+        /// <returns>Lista de cidades</returns>
         [HttpGet("cidades/{estado}")]
         public async Task<ActionResult<IEnumerable<string>>> GetCidades(string estado)
         {

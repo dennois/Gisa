@@ -59,13 +59,14 @@ namespace Gisa.Service
         /// <returns></returns>
         public async Task<Consulta> AgendarAsync(Consulta consulta)
         {
+            consulta.Status = Domain.Enum.Enums.ConsultaStatus.AguardandoAgendamento;
             var validate =_consultaValidator.Validate(consulta);
             if (validate.IsValid)
             {
                 StringBuilder errors = new StringBuilder();
-                var associado = await _associadoService.RecuperarPorIdAsync(consulta.Associado.Identificador);
-                if (associado == null)
-                    errors.AppendLine("Associado informado inválido");
+                //var associado = await _associadoService.RecuperarPorIdAsync(consulta.Associado.Identificador);
+                //if (associado == null)
+                //    errors.AppendLine("Associado informado inválido");
                 var prestador = await _prestadorService.RecuperarPorIdAsync(consulta.Prestador.Identificador);
                 if (prestador == null)
                     errors.AppendLine("Prestador informado inválido");
@@ -76,7 +77,16 @@ namespace Gisa.Service
                 if (conveniado == null)
                     errors.AppendLine("Conveniado informado inválido");
 
-                if(errors.Length > 0)
+                var fluxo = await _fluxoService.RecuperarPorCodigoAsync("CONSULTA");
+                if (fluxo != null)
+                {
+                    consulta.Fluxo = new Fluxo();
+                    consulta.Fluxo.Identificador = fluxo.Identificador;
+                }
+                else
+                    errors.AppendLine("Fluxo inexistente para consulta");
+
+                if (errors.Length > 0)
                 {
                     throw new ArgumentException(errors.ToString());
                 }
@@ -85,7 +95,6 @@ namespace Gisa.Service
             {
                 throw new ArgumentException(validate.ToString());
             }
-            consulta.Status = Domain.Enum.Enums.ConsultaStatus.AguardandoAgendamento;
             await _consultarIntegration.AgendarConsulta(consulta);
             return await _consultaRepository.IncluirAsync(consulta);
         }

@@ -32,15 +32,31 @@ namespace Gisa.Service
 
         #endregion
 
-        public Task<Especialidade> AtualizarAsync(Especialidade especialidade)
+        public async Task<Especialidade> AtualizarAsync(Especialidade especialidade)
         {
-            throw new NotImplementedException();
+            var validate = _especialidadeValidator.Validate(especialidade);
+            if (validate.IsValid)
+            {
+                return await _especialidadeRepository.IncluirAsync(especialidade);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
         public async Task<Especialidade> IncluirAsync(Especialidade especialidade)
         {
-            await _especialidadeIntegration.IncluirEspecialidade(especialidade);
-            return await _especialidadeRepository.IncluirAsync(especialidade);
+            var validate = _especialidadeValidator.Validate(especialidade);
+            if (validate.IsValid)
+            {
+                await _especialidadeIntegration.IncluirEspecialidade(especialidade);
+                return await _especialidadeRepository.IncluirAsync(especialidade);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
         public async Task<Especialidade> RecuperarPorIdAsync(long entityId)
@@ -50,16 +66,12 @@ namespace Gisa.Service
 
         public async Task<IEnumerable<Especialidade>> RecuperarTudo()
         {
-            //List<Especialidade> result = new List<Especialidade>();
-            //result.Add(new Especialidade() { Codigo = "qqq" });
-            //result.Add(new Especialidade() { Codigo = "222" });
-            //return result;
             return await _especialidadeRepository.RecuperarTudo();
         }
 
-        public Task ExcluirAsync(long entityId)
+        public async Task ExcluirAsync(long entityId)
         {
-            throw new NotImplementedException();
+            await _especialidadeRepository.ExcluirAsync(entityId);
         }
 
         public async Task<IEnumerable<Especialidade>> RecuperarPorConveniadoTipo(string tipoConveniado)

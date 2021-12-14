@@ -224,7 +224,7 @@ body {
 	.dateTimeCustomButton {
 		
 		/* display: flex; */
-		-ms-flex-align: center;
+		/*-ms-flex-align: center;*/
 		align-items: center;
 		padding: .375rem .75rem;
 		margin-bottom: 0;
@@ -238,3 +238,10 @@ body {
 		border: 1px solid #ced4da;
 		border-radius: .25rem;
 	}
+
+.invalidfeedback {
+	width: 100%;
+	margin-top: .25rem;
+	font-size: 80%;
+	color: #dc3545;
+}

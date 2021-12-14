@@ -54,6 +54,10 @@ namespace Gisa.WebApi.Controllers
             return consulta != null ? (ActionResult)Ok(consulta) : NoContent();
         }
 
+        /// <summary>
+        /// Recupera todas as consultas do conveniado autenticado
+        /// </summary>
+        /// <returns>Lista de consultas</returns>
         [HttpGet]
         public async Task<ActionResult<Consulta>> GetLista()
         {
@@ -78,6 +82,8 @@ namespace Gisa.WebApi.Controllers
         {
             try
             {
+                consulta.Associado = new Associado();
+                consulta.Associado.Identificador = this.UsuarioIdentificador;
                 consulta = await _consultaService.AgendarAsync(consulta);
             }
             catch(Exception ex)

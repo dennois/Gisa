@@ -17,9 +17,7 @@ namespace Gisa.Domain
             this.Anamnese = anamnese;
             this.PrescricaoMedica = prescricaoMedica;
             this.Status = status;
-            this.Associado = new Associado();
-            this.Especialidade = new Especialidade();
-            this.Conveniado = new Conveniado();
+            this.Fluxo = new Fluxo();
         }
 
         public Consulta()

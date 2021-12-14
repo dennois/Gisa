@@ -56,16 +56,17 @@ namespace Gisa.WebApi.Controllers
             return prestador != null ? (ActionResult)Ok(prestador) : NoContent();
         }
 
-        ///// <summary>
-        ///// Recupera uma lista de prestadores
-        ///// </summary>
-        ///// <param name="filtro">Filtro para os prestadores</param>
-        ///// <returns>Lista de prestadores</returns>
-        //[HttpGet("Filtrar")]
-        //public async Task<IEnumerable<Prestador>> Filtrar([FromBody] ConveniadoFiltro filtro)
-        //{
-        //    return await _conveniadoService.RecuperarResumo(filtro);
-        //}
+        /// <summary>
+        /// Recupera uma lista de prestadores
+        /// </summary>
+        /// <param name="conveniado"></param>
+        /// <param name="especialidade"></param>
+        /// <returns>Lista de prestadores</returns>
+        [HttpGet("{conveniado}/{especialidade}")]
+        public async Task<IEnumerable<Prestador>> Filtrar(long conveniado, long? especialidade)
+        {
+            return await _prestadorService.RecuperarResumo(conveniado, especialidade);
+        }
 
         /// <summary>
         /// Inclui um novo prestador

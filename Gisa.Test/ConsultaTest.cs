@@ -1,6 +1,7 @@
 using FluentValidation;
 using Gisa.Domain;
 using Gisa.Domain.Enum;
+using Gisa.Domain.Interfaces.Integration;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using Gisa.Domain.Validation;
@@ -28,7 +29,6 @@ namespace Gisa.Test
 
         [TestCase(null, null, null, null, null, null, null, null)]
         [TestCase(0, 1, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
-        [TestCase(999, 1, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
         [TestCase(1, null, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
         [TestCase(1, 0, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
         [TestCase(1, 999, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
@@ -39,11 +39,6 @@ namespace Gisa.Test
         [TestCase(1, 1, 1, 0, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
         [TestCase(1, 1, 1, 999, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
         [TestCase(1, 1, 1, 1, "2000-01-01", "anamnese", "prescricaoMedica", 'A')]
-        [TestCase(1, 1, 1, 1, "2100-01-01", null, "prescricaoMedica", 'A')]
-        [TestCase(1, 1, 1, 1, "2100-01-01", "", "prescricaoMedica", 'A')]
-        [TestCase(1, 1, 1, 1, "2100-01-01", "anamnese", null, 'A')]
-        [TestCase(1, 1, 1, 1, "2100-01-01", "anamnese", "", 'A')]
-        [TestCase(1, 1, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", null)]
         [Test]
         public void Nao_Deve_Agendar_Consulta_com_Dados_invalidos(long? idAssociado, long? iEspecialidade, long? iConveniado, long? iPrestador, DateTime agendamento, string anamnese, string prescricaoMedica, Enums.ConsultaStatus status)
         {
@@ -103,9 +98,21 @@ namespace Gisa.Test
                 return new Prestador();
             });
 
+            var consultaIntegration = new Mock<IConsultarIntegration>();
+            consultaIntegration.Setup(m => m.AgendarConsulta(It.IsAny<Consulta>()));
+
+            var fluxoService = new Mock<IFluxoService>();
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("999")).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("CONSULTA")).ReturnsAsync(() =>
+            {
+                return new Fluxo();
+            });
 
             Consulta consulta = new Consulta(associado, especialidade, conveniado, prestador, agendamento, anamnese, prescricaoMedica, status);
-            consultaService = new ConsultaService(null, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, null, null, null);
+            consultaService = new ConsultaService(null, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, consultaIntegration.Object, fluxoService.Object, null);
             Assert.ThrowsAsync<ArgumentException>(async () => await consultaService.AgendarAsync(consulta));
         }
 
@@ -174,9 +181,22 @@ namespace Gisa.Test
                 return new Consulta() { Identificador = 1};
             });
 
+            var consultaIntegration = new Mock<IConsultarIntegration>();
+            consultaIntegration.Setup(m => m.AgendarConsulta(It.IsAny<Consulta>()));
+
+            var fluxoService = new Mock<IFluxoService>();
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("999")).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("CONSULTA")).ReturnsAsync(() =>
+            {
+                return new Fluxo();
+            });
+
 
             Consulta consulta = new Consulta(associado, especialidade, conveniado, prestador, agendamento, anamnese, prescricaoMedica, status);
-            consultaService = new ConsultaService(consultaRepository.Object, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, null, null, null);
+            consultaService = new ConsultaService(consultaRepository.Object, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, consultaIntegration.Object, fluxoService.Object, null);
             consulta = consultaService.AgendarAsync(consulta).Result;
 
             Assert.Greater(consulta.Identificador, 0);

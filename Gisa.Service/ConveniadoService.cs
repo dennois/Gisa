@@ -50,6 +50,10 @@ namespace Gisa.Service
             var endereco = await _localizacaoRepository.IncluirAsync(conveniado.Endereco);
             conveniado.Endereco = endereco;
             conveniado = await _conveniadoRepository.IncluirAsync(conveniado);
+            foreach (var item in conveniado.Especialidades)
+            {
+                _especialidadeRepository.InserirEspecialidadeConveniado(item, conveniado.Identificador);
+            }
             return conveniado;
         }
 
@@ -66,9 +70,9 @@ namespace Gisa.Service
             return await  _conveniadoRepository.RecuperarResumo(filtro);
         }
 
-        public Task ExcluirAsync(long entityId)
+        public async Task ExcluirAsync(long entityId)
         {
-            throw new NotImplementedException();
+            await _conveniadoRepository.ExcluirAsync(entityId);
         }
 
         public async Task<IEnumerable<string>> RecuperarEstados()

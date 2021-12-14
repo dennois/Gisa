@@ -35,7 +35,7 @@ Logradouro,
     Latitude,
     Longitude
                         FROM
-	                        conveniado as con inner join
+	                        conveniado as con left join
 	                        ConveniadoEspecialidade as ces on con.identificador = ces.conveniado inner join
 	                        localizacao as loc on con.endereco = loc.identificador
                         where
@@ -63,13 +63,36 @@ Logradouro,
             return conveniado;
         }
 
+        public override async Task<Conveniado> IncluirAsync(Conveniado entity)
+        {
+            using IDbConnection conn = Connection;
+            entity.DataAlteracao = DateTime.UtcNow;
+            string sql = @"INSERT INTO [dbo].[Conveniado]
+           ([Nome]
+           ,[Codigo]
+           ,[Tipo]
+           ,[Endereco]
+           ,[DataInclusao])
+     VALUES
+ (@Nome
+           ,@Codigo
+           ,@Tipo
+           ,@Endereco
+           ,getutcdate())
+
+select @@identity";
+
+            var result = await conn.ExecuteScalarAsync<long>(sql, new { Nome = entity.Nome, Codigo = entity.Codigo, Tipo = (char)entity.Tipo, Endereco = entity.Endereco.Identificador });
+            entity.Identificador = Convert.ToInt64(result);
+            return entity;
+        }
+
         public override async Task<Conveniado> AtualizarAsync(Conveniado entity)
         {
             using IDbConnection conn = Connection;
             entity.DataAlteracao = DateTime.UtcNow;
-            ConveniadoEntity conveniadoEntity = new ConveniadoEntity(entity);
-            conveniadoEntity.EnderecoId = 2;
-            await conn.UpdateAsync<ConveniadoEntity>(conveniadoEntity);
+            string sql = @"update [dbo].[Conveniado] set Nome = @Nome, Codigo = @Codigo, Tipo = @Tipo, DataAlteracao =getutcdate() where identificador = @identificador";
+            var result = await conn.ExecuteScalarAsync<long>(sql, new { Nome = entity.Nome, Codigo = entity.Codigo, Tipo = (char)entity.Tipo, identificador = entity.Identificador });
             return entity;
         }
     }

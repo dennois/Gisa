@@ -1,14 +1,14 @@
 <template>
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" v-if="exibir">
         <div class="sidebar-sticky pt-0">
-            <ul class="flex-column pl-2 nav">
+            <!--<ul class="flex-column pl-2 nav">
                 <li class="nav-item">
                     <router-link to="/associado" class="nav-link">
                         <i class="icon-profile"></i>
                         Dados cadastrais
                     </router-link>
                 </li>
-            </ul>
+            </ul>-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item">
                     <router-link to="/consultas" class="nav-link">
@@ -25,14 +25,14 @@
                     </router-link>
                 </li>
             </ul>
-            <ul class="flex-column pl-2 nav">
+            <!--<ul class="flex-column pl-2 nav">
                 <li class="nav-item">
                     <router-link to="/exames" class="nav-link">
                         <i class="icon-lab"></i>
                         Exames
                     </router-link>
                 </li>
-            </ul>
+            </ul>-->
             <ul class="flex-column pl-2 nav">
                 <li class="nav-item">
                     <router-link to="/workflow" class="nav-link">

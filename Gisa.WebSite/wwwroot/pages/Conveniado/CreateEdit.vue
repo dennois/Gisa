@@ -90,7 +90,7 @@
                                         <div class="col-md-6">
                                             <label>CEP</label>
                                             <div class="input-group mb-3 ">
-                                                <input type="text" v-model="conveniado.endereco.cep" class="form-control"  maxlength="9" @keypress="formatar('#####-###')">
+                                                <input type="text" v-model="conveniado.endereco.cep" class="form-control"  maxlength="9" @keypress="formatar('#####-###')" required>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-secondary" type="button" @click="pesquisarEndereco">Pesquisar</button>
                                                 </div>
@@ -100,11 +100,11 @@
                                     <div class="row">
                                         <div class="col-md-9">
                                             <label>Logradouro</label>
-                                            <input type="text" v-model="conveniado.endereco.logradouro" class="form-control" placeholder="" maxlength="150">
+                                            <input type="text" v-model="conveniado.endereco.logradouro" class="form-control" placeholder="" maxlength="150" required>
                                         </div>
                                         <div class="col-md-3">
                                             <label>N&uacute;mero</label>
-                                            <input type="text" v-model="conveniado.endereco.numero" class="form-control" placeholder="" maxlength="3">
+                                            <input type="text" v-model="conveniado.endereco.numero" class="form-control" placeholder="" maxlength="3" required>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -120,15 +120,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label>Cidade</label>
-                                            <input type="text" v-model="conveniado.endereco.cidade" class="form-control" placeholder="" maxlength="3">
+                                            <input type="text" v-model="conveniado.endereco.cidade" class="form-control" placeholder="" maxlength="3" readonly required>
                                         </div>
                                         <div class="col-md-6">
                                             <label>Estado</label>
-                                            <input type="text" v-model="conveniado.endereco.estado" class="form-control" placeholder="" maxlength="3">
+                                            <input type="text" v-model="conveniado.endereco.estado" class="form-control" placeholder="" maxlength="3" readonly required>
                                         </div>
                                     </div>
                                     <br />
-                                    <div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
+                                    <div class="embed-responsive embed-responsive-16by9 z-depth-1-half" v-if="conveniado.endereco.latitude">
                                         <iframe class="embed-responsive-item" :src="mapUrl" ref="iframe" allowfullscreen></iframe>
                                     </div>
                                 </div>
@@ -161,19 +161,15 @@
         methods: {
             save: function () {
                 api.ConveniadoSalvar(this.conveniado).then((data) => {
-                    if (data.id) {
-                        this.alert = { type: 'success', content: ['conveniado-Saved'] };
-                        if (this.conveniado.id == 0)
-                            router.push({ path: '/conveniado/' + data.id });
-                        this.conveniado.id = data.id;
-                    } else if (data) {
-                        this.alert = { type: 'warning', content: Array.isArray(data) ? data.map(e => e.message) : [data.message] };
-                    } else {
-                        this.alert = { type: 'warning', content: ['ErrorSendingRequest'] };
+                    if (data.identificador) {
+                        if (this.conveniado.identificador == 0)
+                            router.push({ path: '/conveniado/' + data.identificador });
+                        this.conveniado.identificador = data.identificador;
                     }
-                    this.interval = setInterval(this.removerAlert, 5000);
+                    Command: toastr["success"]("Conveniado salvo com sucesso!");
+                    
                 }, (error) => {
-                    this.alert = { type: 'danger', content: [error.responseText] };
+                    Command: toastr["danger"](error.responseText);
                 });
             },
             pesquisarEndereco: function () {
@@ -183,13 +179,25 @@
                         this.conveniado.endereco.estado = data.results[0].address.countrySubdivision;
                         this.conveniado.endereco.cidade = data.results[0].address.municipality;
                         this.conveniado.endereco.bairro = data.results[0].address.municipalitySubdivision;
-                        this.conveniado.endereco.cep = data.results[0].address.extendedPostalCode;
+                        this.conveniado.endereco.cep = data.results[0].address.extendedPostalCode.split(',')[0];
                         this.conveniado.endereco.latitude = data.results[0].position.lat;
                         this.conveniado.endereco.longitude = data.results[0].position.lon;
                         this.mapUrl = "maps/map.html?lat=" + this.conveniado.endereco.latitude + "&lon=" + this.conveniado.endereco.longitude;
+                        console.log(data.results[0].address);
+                    }
+                    else {
+                        this.conveniado.endereco.logradouro = "";
+                        this.conveniado.endereco.estado = "";
+                        this.conveniado.endereco.cidade = "";
+                        this.conveniado.endereco.bairro = "";
+                        this.conveniado.endereco.cep = "";
+                        this.conveniado.endereco.latitude = null;
+                        this.conveniado.endereco.longitude = null;
+                        Command: toastr["warning"]("Nenhum endere&ccedil;o encontrado para o cep informado!");
                     }
                 }, (error) => {
-                    this.alert = { type: 'danger', content: [error.responseText] };
+                     Command: toastr["danger"](error.responseText);
+
                 });
 
             },
@@ -254,6 +262,7 @@
             if (this.$route.params.id != '0') {
                 api.ConveniadoRecuperarDetalhe(this.$route.params.id).then((data) => {
                     this.conveniado = data;
+                    console.log(this.conveniado);
                     if (this.conveniado.endereco.latitude != null)
                         this.mapUrl = "maps/map.html?lat=" + this.conveniado.endereco.latitude + "&lon=" + this.conveniado.endereco.longitude;
                     else
@@ -275,9 +284,11 @@
                     "identificador": 0,
                     "nome": "",
                     "codigo": "",
-                    "especialidade": [],
+                    "especialidades": [],
                     "peso": "",
-                    "ativo": ""
+                    "ativo": "",
+                    "tipo":"",
+                    "endereco": { "cep": "","latitude":null}
                 }
             }
         }

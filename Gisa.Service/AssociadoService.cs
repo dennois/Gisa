@@ -29,19 +29,35 @@ namespace Gisa.Service
 
         #endregion
 
-        public Task<Associado> AtualizarAsync(Associado conveniado)
+        public async Task<Associado> AtualizarAsync(Associado conveniado)
         {
-            throw new NotImplementedException();
+            var validate = _associadoValidator.Validate(conveniado);
+            if (validate.IsValid)
+            {
+                return await _associadoRepository.AtualizarAsync(conveniado);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
-        public Task<Associado> IncluirAsync(Associado conveniado)
+        public async Task<Associado> IncluirAsync(Associado conveniado)
         {
-            throw new NotImplementedException();
+            var validate = _associadoValidator.Validate(conveniado);
+            if (validate.IsValid)
+            {
+                return await _associadoRepository.IncluirAsync(conveniado);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
-        public Task<Associado> RecuperarPorIdAsync(long entityId)
+        public async Task<Associado> RecuperarPorIdAsync(long entityId)
         {
-            throw new NotImplementedException();
+            return await _associadoRepository.RecuperarPorIdAsync(entityId);
         }
     }
 }

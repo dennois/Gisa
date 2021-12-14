@@ -10,6 +10,7 @@ namespace Gisa.Domain
         public Conveniado()
         {
             this.Endereco = new Localizacao();
+            this.Especialidades = new List<Especialidade>();
         }
 
         public string Nome { get; set; }

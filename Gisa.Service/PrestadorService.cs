@@ -29,24 +29,45 @@ namespace Gisa.Service
 
         #endregion
 
-        public Task<Prestador> AtualizarAsync(Prestador prestador)
+        public async Task<Prestador> AtualizarAsync(Prestador prestador)
         {
-            throw new NotImplementedException();
+            var validate = _prestadorValidator.Validate(prestador);
+            if (validate.IsValid)
+            {
+                return await _prestadorRepository.IncluirAsync(prestador);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
-        public Task<Prestador> IncluirAsync(Prestador prestador)
+        public async Task<Prestador> IncluirAsync(Prestador prestador)
         {
-            throw new NotImplementedException();
+            var validate = _prestadorValidator.Validate(prestador);
+            if (validate.IsValid)
+            {
+                return await _prestadorRepository.IncluirAsync(prestador);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
-        public Task<Prestador> RecuperarPorIdAsync(long entityId)
+        public async Task<Prestador> RecuperarPorIdAsync(long entityId)
         {
-            throw new NotImplementedException();
+            return await _prestadorRepository.RecuperarPorIdAsync(entityId);
         }
 
-        public Task ExcluirAsync(long entityId)
+        public async Task ExcluirAsync(long entityId)
         {
-            throw new NotImplementedException();
+            await _prestadorRepository.ExcluirAsync(entityId);
+        }
+
+        public async Task<IEnumerable<Prestador>> RecuperarResumo(long conveniado, long? especialidade)
+        {
+            return await _prestadorRepository.RecuperarResumo(conveniado, especialidade);
         }
     }
 }

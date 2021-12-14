@@ -24,6 +24,11 @@ namespace Gisa.WebApi.Controllers
         readonly IAtenticacaoService _tokenService;
         readonly IUsuarioService _usuarioService;
 
+        /// <summary>
+        /// Efetua o login na aplicação
+        /// </summary>
+        /// <param name="usuario">Usuário para ser autenticado</param>
+        /// <returns>Token de autenticação</returns>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
