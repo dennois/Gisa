@@ -17,7 +17,7 @@
                     </router-link>
                 </li>
             </ul>
-            <ul class="flex-column pl-2 nav">
+            <ul class="flex-column pl-2 nav" v-if="usuarioAdmin">
                 <li class="nav-item">
                     <router-link to="/conveniado" class="nav-link">
                         <i class="icon-handshake-o"></i>
@@ -33,7 +33,7 @@
                     </router-link>
                 </li>
             </ul>-->
-            <ul class="flex-column pl-2 nav">
+            <ul class="flex-column pl-2 nav" v-if="usuarioAdmin">
                 <li class="nav-item">
                     <router-link to="/workflow" class="nav-link">
                         <i class="icon-cogs"></i>
@@ -65,6 +65,10 @@
                     if (localizer(a.title) > localizer(b.title)) return 1;
                     return 0;
                 });
+            },
+            usuarioAdmin: function () {
+                var perfil = localStorage.getItem('currentUserPerfil');
+                return perfil == "ADMIN";
             }
         },
         created: function () {

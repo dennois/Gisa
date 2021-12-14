@@ -23,7 +23,6 @@
                                 </div>
                                 <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login">
                             </form>
-                            <a href="#!" class="forgot-password-link">Esqueceu sua senha?</a>
                             <nav class="login-card-footer-nav">
                                 <a href="#!">Terms of use.</a>
                                 <a href="#!">Privacy policy</a>
@@ -63,6 +62,7 @@ module.exports = {
             this.token = data;
             localStorage.setItem('token', this.token.token);
             localStorage.setItem('currentUser', JSON.stringify(this.token.user));
+            localStorage.setItem('currentUserPerfil', this.token.user.perfil);
             this.$router.push('/home');
         }, (error) => {
             alert(error.responseText);
