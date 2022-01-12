@@ -45,5 +45,22 @@ namespace Gisa.Service
             }
             return fluxo;
         }
+
+        public async Task<Fluxo> RecuperarPorIdAsync(long id)
+        {
+            Fluxo fluxo = await _fluxoRepository.RecuperarPorIdAsync(id);
+
+            var processo = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(fluxo.Processo);
+            foreach (var item in processo["drawflow"]["Home"]["data"].ToList())
+            {
+                if (item.First()["data"]["exibir_associado"] != null && ((Newtonsoft.Json.Linq.JValue)item.First()["data"]["exibir_associado"]).Value.ToString() == "Sim")
+                {
+                    string nomePasso = ((Newtonsoft.Json.Linq.JValue)item.First()["data"]["exibir_descricao"]).Value.ToString();
+                    string idPasso = ((Newtonsoft.Json.Linq.JValue)item.First()["id"]).Value.ToString();
+                    fluxo.Passos.Add(new KeyValuePair<string, string>(idPasso, nomePasso));
+                }
+            }
+            return fluxo;
+        }
     }
 }

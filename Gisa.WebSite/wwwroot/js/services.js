@@ -134,6 +134,20 @@ const api = {
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
+	ConsultaRecuperarAprovacao: function (conveniadoTipo, especialidade, estado, cidade, status) {
+		return $.ajax({
+			url: webApiUrl + "/api/consulta/AprovacaoResumo",
+			type: "Get",
+			data: {
+				conveniadoTipo: conveniadoTipo,
+				especialidade: especialidade,
+				estado: estado,
+				cidade: cidade,
+				status: status
+            },
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
 	ConsultaAgendar: function (conveniado, especialidade, data, prestador) {
 		return $.ajax({
 			type: "POST",
@@ -170,6 +184,16 @@ const api = {
 		return $.ajax({
 			url: webApiUrl + "/api/prestador/" + conveniado + "/" + especialidade,
 			type: "Get",
+			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
+		});
+	},
+	ConsultaFluxoSalvar: function (consultaFluxo) {
+		return $.ajax({
+			type: "Put",
+			url: webApiUrl + "/api/ConsultaFluxo/",
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify(consultaFluxo),
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},

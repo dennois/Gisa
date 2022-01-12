@@ -34,7 +34,7 @@ namespace Gisa.WebApi.Controllers
             {
                 fluxo.Processo = Newtonsoft.Json.JsonConvert.SerializeObject(Newtonsoft.Json.JsonConvert.DeserializeObject(fluxo.Processo));
                 //var b = Newtonsoft.Json.JsonConvert.DeserializeObject(fluxo.ProcessoObject);
-                _fluxoService.IncluirAsync(fluxo);
+                await _fluxoService.IncluirAsync(fluxo);
             }
             catch(Exception ex)
             {

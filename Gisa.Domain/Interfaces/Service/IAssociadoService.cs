@@ -12,5 +12,7 @@ namespace Gisa.Domain.Interfaces.Service
         public Task<Associado> AtualizarAsync(Associado associado);
 
         public Task<Associado> RecuperarPorIdAsync(long entityId);
+
+        public Task<Associado> RecuperarPorUsuarioAsync(long entityId);
     }
 }

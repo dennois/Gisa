@@ -59,5 +59,10 @@ namespace Gisa.Service
         {
             return await _associadoRepository.RecuperarPorIdAsync(entityId);
         }
+
+        public async Task<Associado> RecuperarPorUsuarioAsync(long entityId)
+        {
+            return await _associadoRepository.RecuperarPorUsuarioAsync(entityId);
+        }
     }
 }

@@ -7,12 +7,14 @@ namespace Gisa.Domain.Interfaces.Service
 {
     public interface IConsultaService
     {
-        public Task<Consulta> AgendarAsync(Consulta consulta);
+        Task<Consulta> AgendarAsync(Consulta consulta);
 
-        public Task<Consulta> AtualizarAsync(Consulta consulta);
+        Task<Consulta> AtualizarAsync(Consulta consulta);
 
-        public Task<Consulta> RecuperarPorIdAsync(long entityId);
+        Task<Consulta> RecuperarPorIdAsync(long entityId);
 
-        public Task<IEnumerable<Consulta>> RecuperarResumoAsync(long usuarioIdentificador);
+        Task<IEnumerable<Consulta>> RecuperarResumoAsync(long usuarioIdentificador);
+
+        Task<IEnumerable<Consulta>> RecuperarResumoAsync(string conveniadoTipo, long? especialidade, string estado, string cidade, string status);
     }
 }

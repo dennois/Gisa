@@ -1,19 +1,20 @@
 ﻿using Dapper.FluentMap.Dommel.Mapping;
 using Gisa.Domain;
-using Gisa.SqlRepository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Gisa.SqlRepository.Map
 {
-    public class AssociadoMap : DommelEntityMap<AssociadoEntity>
+    public class ConsultaFluxoMap : DommelEntityMap<ConsultaFluxo>
     {
-        public AssociadoMap()
+        public ConsultaFluxoMap()
         {
-            ToTable("Associado");
+            ToTable("ConsultaFluxo");
 
             Map(x => x.Identificador).ToColumn("Identificador").IsKey().IsIdentity();
+            Map(x => x.DataAlteracao).Ignore();
+            Map(x => x.DataInclusao).Ignore();
         }
     }
 }

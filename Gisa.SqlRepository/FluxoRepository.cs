@@ -76,5 +76,19 @@ namespace Gisa.SqlRepository
                 new { consulta = consulta });
             return fluxo;
         }
+
+        public async Task<Fluxo> RecuperarPorIdAsync(long identificador)
+        {
+            using IDbConnection connection = Connection;
+
+            Fluxo fluxo = await connection.QueryFirstOrDefaultAsync<Fluxo>(@"SELECT 
+                                                      flu.*
+                                                    FROM 
+                                                        Fluxo as flu with(NOLOCK)
+                                                    WHERE 
+                                                        identificador = @identificador",
+                new { identificador = identificador });
+            return fluxo;
+        }
     }
 }

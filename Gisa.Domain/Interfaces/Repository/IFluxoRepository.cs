@@ -10,5 +10,7 @@ namespace Gisa.Domain.Interfaces.Repository
         Task<Fluxo> RecuperarPorCodigoAsync(string codigo);
 
         Task<Fluxo> RecuperarPorConsultaAsync(long consulta);
+
+        Task<Fluxo> RecuperarPorIdAsync(long identificador);
     }
 }

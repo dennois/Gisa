@@ -25,14 +25,14 @@
                     </router-link>
                 </li>
             </ul>
-            <!--<ul class="flex-column pl-2 nav">
+            <ul class="flex-column pl-2 nav" v-if="usuarioAdmin">
                 <li class="nav-item">
-                    <router-link to="/exames" class="nav-link">
+                    <router-link to="/aprovacao" class="nav-link">
                         <i class="icon-lab"></i>
-                        Exames
+                        Aprova&ccedil;&atilde;o
                     </router-link>
                 </li>
-            </ul>-->
+            </ul>
             <ul class="flex-column pl-2 nav" v-if="usuarioAdmin">
                 <li class="nav-item">
                     <router-link to="/workflow" class="nav-link">

@@ -7,6 +7,8 @@ namespace Gisa.Domain.Interfaces.Repository
 {
     public interface IConsultaFluxoRepository : IRepository<ConsultaFluxo>
     {
-        public Task<IEnumerable<ConsultaFluxo>> RecuperarResumoAsync(long consultaIdentificador);
+        Task<IEnumerable<ConsultaFluxo>> RecuperarResumoAsync(long consultaIdentificador);
+
+        Task<ConsultaFluxo> RecuperarProximoAsync(long identificador, long consulta);
     }
 }

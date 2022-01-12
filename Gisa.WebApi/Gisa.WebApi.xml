@@ -30,6 +30,13 @@
             <param name="consulta">Dados da consulta</param>
             <returns></returns>
         </member>
+        <member name="M:Gisa.WebApi.Controllers.ConsultaFluxoController.Put(Gisa.Domain.ConsultaFluxo)">
+            <summary>
+            Atualiza os dados de um passo do fluxo da consulta
+            </summary>
+            <param name="value">Dados do passo do fluxo da consulta</param>
+            <returns></returns>
+        </member>
         <member name="M:Gisa.WebApi.Controllers.ConveniadoController.Get(System.Int64)">
             <summary>
             Recupera os detalhes de um conveniado

@@ -59,12 +59,27 @@ namespace Gisa.WebApi.Controllers
         /// </summary>
         /// <returns>Lista de consultas</returns>
         [HttpGet]
-        public async Task<ActionResult<Consulta>> GetLista()
+        public async Task<ActionResult<IEnumerable<Consulta>>> GetLista()
         {
             IEnumerable<Consulta> consultas = null;
             try
             {
                 consultas = await _consultaService.RecuperarResumoAsync(this.UsuarioIdentificador);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return consultas != null ? (ActionResult)Ok(consultas) : NoContent();
+        }
+
+        [HttpGet("AprovacaoResumo")]
+        public async Task<ActionResult<IEnumerable<Consulta>>> GetAprovacaoResumo(string conveniadoTipo, long? especialidade, string estado, string cidade, string status)
+        {
+            IEnumerable<Consulta> consultas = null;
+            try
+            {
+                consultas = await _consultaService.RecuperarResumoAsync(conveniadoTipo, especialidade, estado, cidade, status);
             }
             catch (Exception ex)
             {
@@ -83,7 +98,7 @@ namespace Gisa.WebApi.Controllers
             try
             {
                 consulta.Associado = new Associado();
-                consulta.Associado.Identificador = this.UsuarioIdentificador;
+                consulta.Associado.Usuario = this.UsuarioIdentificador;
                 consulta = await _consultaService.AgendarAsync(consulta);
             }
             catch(Exception ex)

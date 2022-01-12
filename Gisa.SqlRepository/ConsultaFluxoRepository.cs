@@ -16,6 +16,21 @@ namespace Gisa.SqlRepository
         {
         }
 
+        public async Task<ConsultaFluxo> RecuperarProximoAsync(long identificador, long consulta)
+        {
+            using IDbConnection conn = Connection;
+            var sql = @"select 
+	* 
+from 
+	consultafluxo
+where
+	consulta = @Consulta
+and identificador > @Identificador";
+
+            var result = await conn.QueryFirstOrDefaultAsync<ConsultaFluxo>(sql, new { Identificador = identificador, Consulta  = consulta });
+            return result;
+        }
+
         public async Task<IEnumerable<ConsultaFluxo>> RecuperarResumoAsync(long consultaIdentificador)
         {
             using IDbConnection conn = Connection;

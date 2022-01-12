@@ -60,13 +60,14 @@ namespace Gisa.Service
         public async Task<Consulta> AgendarAsync(Consulta consulta)
         {
             consulta.Status = Domain.Enum.Enums.ConsultaStatus.AguardandoAgendamento;
+            var associado = await _associadoService.RecuperarPorUsuarioAsync(consulta.Associado.Usuario);
+            if (associado != null)
+                consulta.Associado = associado;
             var validate =_consultaValidator.Validate(consulta);
             if (validate.IsValid)
             {
                 StringBuilder errors = new StringBuilder();
-                //var associado = await _associadoService.RecuperarPorIdAsync(consulta.Associado.Identificador);
-                //if (associado == null)
-                //    errors.AppendLine("Associado informado inválido");
+              
                 var prestador = await _prestadorService.RecuperarPorIdAsync(consulta.Prestador.Identificador);
                 if (prestador == null)
                     errors.AppendLine("Prestador informado inválido");
@@ -95,8 +96,16 @@ namespace Gisa.Service
             {
                 throw new ArgumentException(validate.ToString());
             }
-            await _consultarIntegration.AgendarConsulta(consulta);
-            return await _consultaRepository.IncluirAsync(consulta);
+            //await _consultarIntegration.AgendarConsulta(consulta);
+            consulta = await _consultaRepository.IncluirAsync(consulta);
+            var fluxoPassos = await _fluxoService.RecuperarPorIdAsync(consulta.Fluxo.Identificador);
+            bool first = true;
+            foreach (var item in fluxoPassos.Passos)
+            {
+                await _consultaFluxoService.IncluirAsync(new ConsultaFluxo() { Passo = item.Key, Status = first ? "E": null, Consulta = consulta.Identificador });
+                first = false;
+            }
+            return consulta;
         }
 
         /// <summary>
@@ -128,6 +137,21 @@ namespace Gisa.Service
                 {
                     item.Fluxo = await _fluxoService.RecuperarPorConsultaAsync(item.Identificador);
                     if(item.Fluxo != null)
+                        item.FluxoProcesso = await _consultaFluxoService.RecuperarResumoAsync(item.Identificador);
+                }
+            }
+            return consultas;
+        }
+
+        public async Task<IEnumerable<Consulta>> RecuperarResumoAsync(string conveniadoTipo, long? especialidade, string estado, string cidade, string status)
+        {
+            var consultas = await _consultaRepository.RecuperarResumoAsync(conveniadoTipo, especialidade, estado, cidade, status);
+            if (consultas != null)
+            {
+                foreach (var item in consultas)
+                {
+                    item.Fluxo = await _fluxoService.RecuperarPorConsultaAsync(item.Identificador);
+                    if (item.Fluxo != null)
                         item.FluxoProcesso = await _consultaFluxoService.RecuperarResumoAsync(item.Identificador);
                 }
             }

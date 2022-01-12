@@ -59,11 +59,12 @@ const router = new VueRouter({
         { path: '*', component: httpVueLoaderAppendVersion('pages/Login.vue') },
         { path: '/', component: httpVueLoaderAppendVersion('pages/Login.vue') },
         { path: '/associado', component: httpVueLoader('pages/Associado/Cadastro.vue'), meta: { authorize: ['ADMIN'] } },
+        { path: '/aprovacao', component: httpVueLoader('pages/consulta/aprovacao.vue'), meta: { authorize: ['ADMIN'] } },
         { path: '/consultas', component: httpVueLoader('pages/Associado/Consulta.vue') },
         { path: '/home', component: httpVueLoader('pages/Home.vue') },
         { path: '/consultaAgendar', component: httpVueLoader('pages/Associado/ConsultaAgendar.vue') },
         { path: '/exames', component: httpVueLoader('pages/Associado/Exame.vue') },
-        { path: '/workflow', component: httpVueLoader('pages/WorkFlow/Cadastro.vue') },
+        { path: '/workflow', component: httpVueLoader('pages/WorkFlow/Cadastro.vue'), meta: { authorize: ['ADMIN'] } },
         { path: '/conveniado', component: httpVueLoader('pages/Conveniado/List.vue') },
         { path: '/conveniado/:id', component: httpVueLoader('pages/Conveniado/CreateEdit.vue') },
   ]

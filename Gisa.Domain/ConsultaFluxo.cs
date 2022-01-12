@@ -6,6 +6,8 @@ namespace Gisa.Domain
 {
     public class ConsultaFluxo : BaseDomain
     {
+        public long Consulta { get; set; }
+
         public string Status { get; set; }
 
         public string Passo { get; set; }

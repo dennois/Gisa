@@ -17,19 +17,36 @@ namespace Gisa.Service
 
         readonly IConsultaFluxoRepository _consultaFluxoRepository;
 
-        public Task<ConsultaFluxo> AtualizarAsync(ConsultaFluxo associado)
+        public async Task<ConsultaFluxo> AtualizarAsync(ConsultaFluxo consultaFluxo)
         {
-            throw new NotImplementedException();
+            string status = consultaFluxo.Status;
+            consultaFluxo = await _consultaFluxoRepository.RecuperarPorIdAsync(consultaFluxo.Identificador);
+            consultaFluxo.Status = status;
+            consultaFluxo.DataFim = DateTime.UtcNow;
+            consultaFluxo = await _consultaFluxoRepository.AtualizarAsync(consultaFluxo);
+            var consultaProximo = await this.RecuperarProximoAsync(consultaFluxo.Identificador, consultaFluxo.Consulta);
+            if(consultaProximo != null)
+            {
+                consultaProximo.Status = "E";
+                consultaProximo.DataInicio = DateTime.UtcNow;
+                await _consultaFluxoRepository.AtualizarAsync(consultaProximo);
+            }
+            return consultaFluxo;
         }
 
-        public Task<ConsultaFluxo> IncluirAsync(ConsultaFluxo consultaFluxo)
+        public async Task<ConsultaFluxo> IncluirAsync(ConsultaFluxo consultaFluxo)
         {
-            throw new NotImplementedException();
+            return await _consultaFluxoRepository.IncluirAsync(consultaFluxo);
         }
 
         public async Task<IEnumerable<ConsultaFluxo>> RecuperarResumoAsync(long consultaIdentificador)
         {
             return await _consultaFluxoRepository.RecuperarResumoAsync(consultaIdentificador);
+        }
+
+        public async Task<ConsultaFluxo> RecuperarProximoAsync(long identificador, long consulta)
+        {
+            return await _consultaFluxoRepository.RecuperarProximoAsync(identificador, consulta);
         }
     }
 }

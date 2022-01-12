@@ -99,7 +99,9 @@
 
         function Export() {
             const fluxo = { "codigo": "CONSULTA", "nome": "Consulta Médica", "ProcessoObject": editor.export(), "Processo": JSON.stringify(editor.export()) };
-            api.FluxoSalvar(fluxo)
+            api.FluxoSalvar(fluxo).then((data) => {
+                alert("Salvo com sucesso");
+            });
         }
 
         editor.start();
