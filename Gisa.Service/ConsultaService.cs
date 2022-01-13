@@ -97,8 +97,8 @@ namespace Gisa.Service
                 throw new ArgumentException(validate.ToString());
             }
             //await _consultarIntegration.AgendarConsulta(consulta);
-            consulta = await _consultaRepository.IncluirAsync(consulta);
             var fluxoPassos = await _fluxoService.RecuperarPorIdAsync(consulta.Fluxo.Identificador);
+            consulta = await _consultaRepository.IncluirAsync(consulta);
             bool first = true;
             foreach (var item in fluxoPassos.Passos)
             {
@@ -115,7 +115,15 @@ namespace Gisa.Service
         /// <returns></returns>
         public async Task<Consulta> AtualizarAsync(Consulta consulta)
         {
-            return await _consultaRepository.AtualizarAsync(consulta);
+            var validate = _consultaValidator.Validate(consulta);
+            if (validate.IsValid)
+            {
+                return await _consultaRepository.AtualizarAsync(consulta);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
         /// <summary>

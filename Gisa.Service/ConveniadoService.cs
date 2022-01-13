@@ -35,33 +35,54 @@ namespace Gisa.Service
 
         public async Task<Conveniado> AtualizarAsync(Conveniado conveniado)
         {
-            conveniado = await _conveniadoRepository.AtualizarAsync(conveniado);
+            var validate = _conveniadoValidator.Validate(conveniado);
+            if (validate.IsValid)
+            {
+                conveniado = await _conveniadoRepository.AtualizarAsync(conveniado);
             _especialidadeRepository.ExcluirEspecialidadeConveniado(conveniado.Identificador);
             foreach (var item in conveniado.Especialidades)
             {
                 _especialidadeRepository.InserirEspecialidadeConveniado(item, conveniado.Identificador);
             }
             await _localizacaoRepository.AtualizarAsync(conveniado.Endereco);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
+
             return conveniado;
         }
 
         public async Task<Conveniado> IncluirAsync(Conveniado conveniado)
         {
-            var endereco = await _localizacaoRepository.IncluirAsync(conveniado.Endereco);
-            conveniado.Endereco = endereco;
-            conveniado = await _conveniadoRepository.IncluirAsync(conveniado);
-            foreach (var item in conveniado.Especialidades)
+            var validate = _conveniadoValidator.Validate(conveniado);
+            if (validate.IsValid)
             {
-                _especialidadeRepository.InserirEspecialidadeConveniado(item, conveniado.Identificador);
+                var endereco = await _localizacaoRepository.IncluirAsync(conveniado.Endereco);
+                conveniado.Endereco = endereco;
+                conveniado = await _conveniadoRepository.IncluirAsync(conveniado);
+                foreach (var item in conveniado.Especialidades)
+                {
+                    _especialidadeRepository.InserirEspecialidadeConveniado(item, conveniado.Identificador);
+                }
             }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
+
             return conveniado;
         }
 
         public async Task<Conveniado> RecuperarPorIdAsync(long entityId)
         {
             Conveniado conveniado = await _conveniadoRepository.RecuperarPorIdAsync(entityId);
-            conveniado.Especialidades = await _especialidadeRepository.RecuperarPorConveniado(entityId);
-            conveniado.Endereco = await _localizacaoRepository.RecuperarPorIdAsync(conveniado.Endereco.Identificador);
+            if (conveniado != null)
+            {
+                conveniado.Especialidades = await _especialidadeRepository.RecuperarPorConveniado(entityId);
+                conveniado.Endereco = await _localizacaoRepository.RecuperarPorIdAsync(conveniado.Endereco.Identificador);
+            }
             return conveniado;
         }
 

@@ -9,8 +9,6 @@ namespace Gisa.Domain.Interfaces.Service
     {
         public Task<ConsultaFluxo> IncluirAsync(ConsultaFluxo  consultaFluxo);
 
-        public Task<ConsultaFluxo> RecuperarProximoAsync(long identificador, long consulta);
-
         public Task<ConsultaFluxo> AtualizarAsync(ConsultaFluxo consultaFluxo);
 
         public Task<IEnumerable<ConsultaFluxo>> RecuperarResumoAsync(long consultaIdentificador);
