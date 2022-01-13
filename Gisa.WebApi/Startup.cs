@@ -133,6 +133,8 @@ namespace Gisa.WebApi
             services.AddSingleton<IValidator<Prestador>, PrestadorValidator>();
             services.AddSingleton<IValidator<Associado>, AssociadoValidator>();
             services.AddSingleton<IValidator<ConsultaFluxo>, ConsultaFluxoValidator>();
+            services.AddSingleton<IValidator<Fluxo>, FluxoValidator>();
+            services.AddSingleton<IValidator<Usuario>, UsuarioValidator>();
 
             #endregion
 

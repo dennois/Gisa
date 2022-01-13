@@ -1,4 +1,5 @@
-﻿using Gisa.Domain;
+﻿using FluentValidation;
+using Gisa.Domain;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using Newtonsoft.Json.Linq;
@@ -12,16 +13,26 @@ namespace Gisa.Service
 {
     public class FluxoService : IFluxoService
     {
-        public FluxoService(IFluxoRepository fluxoRepository)
+        public FluxoService(IFluxoRepository fluxoRepository, IValidator<Fluxo> fluxoValidator)
         {
             _fluxoRepository = fluxoRepository;
+            _fluxoValidator = fluxoValidator;
         }
 
         readonly IFluxoRepository _fluxoRepository;
+        readonly IValidator<Fluxo> _fluxoValidator;
 
         public async Task<Fluxo> IncluirAsync(Fluxo fluxo)
         {
-            return await _fluxoRepository.IncluirAsync(fluxo);
+            var validate = _fluxoValidator.Validate(fluxo);
+            if (validate.IsValid)
+            {
+                return await _fluxoRepository.IncluirAsync(fluxo);
+            }
+            else
+            {
+                throw new ArgumentException(validate.ToString());
+            }
         }
 
         public async Task<Fluxo> RecuperarPorCodigoAsync(string codigo)
