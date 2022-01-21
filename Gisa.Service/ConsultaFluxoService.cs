@@ -11,14 +11,16 @@ namespace Gisa.Service
 {
     public class ConsultaFluxoService : IConsultaFluxoService
     {
-        public ConsultaFluxoService(IConsultaFluxoRepository consultaFluxoRepository, IValidator<ConsultaFluxo> consultaFluxoValidator)
+        public ConsultaFluxoService(IConsultaFluxoRepository consultaFluxoRepository, IValidator<ConsultaFluxo> consultaFluxoValidator, IConsultaRepository consultaRepository)
         {
             _consultaFluxoRepository = consultaFluxoRepository;
             _consultaFluxoValidator = consultaFluxoValidator;
+            _consultaRepository = consultaRepository;
         }
 
         readonly IConsultaFluxoRepository _consultaFluxoRepository;
         readonly IValidator<ConsultaFluxo> _consultaFluxoValidator;
+        readonly IConsultaRepository _consultaRepository;
 
         public async Task<ConsultaFluxo> AtualizarAsync(ConsultaFluxo consultaFluxo)
         {
@@ -37,6 +39,10 @@ namespace Gisa.Service
                     consultaProximo.DataInicio = DateTime.UtcNow;
 
                     await _consultaFluxoRepository.AtualizarAsync(consultaProximo);
+                }
+                else
+                {
+                    await _consultaRepository.AtualizarStatusAsync(consultaFluxo.Consulta, Domain.Enum.Enums.ConsultaStatus.Agendada);
                 }
             }
             else

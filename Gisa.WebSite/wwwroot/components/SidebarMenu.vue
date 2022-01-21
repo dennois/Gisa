@@ -28,7 +28,7 @@
             <ul class="flex-column pl-2 nav" v-if="usuarioAdmin">
                 <li class="nav-item">
                     <router-link to="/aprovacao" class="nav-link">
-                        <i class="icon-lab"></i>
+                        <i class="icon-checkmark"></i>
                         Aprova&ccedil;&atilde;o
                     </router-link>
                 </li>

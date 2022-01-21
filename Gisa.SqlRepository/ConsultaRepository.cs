@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Gisa.Domain;
+using Gisa.Domain.Enum;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.SqlRepository.Entity;
 using Microsoft.Extensions.Configuration;
@@ -133,6 +134,15 @@ ORDER BY
 
             var result = await conn.QueryAsync<ConsultaEntity>(sql, new { Status = status, Especialidade = especialidade, Estado = estado, Cidade = cidade, Tipo = conveniadoTipo });
             return result;//.Cast<Conveniado>().ToList();
+        }
+
+
+        public async Task<bool> AtualizarStatusAsync(long identificador, Enums.ConsultaStatus status)
+        {
+            using IDbConnection conn = Connection;
+            string sql = @"update [dbo].[Consulta] set Status = @Status, DataAlteracao = getutcdate() where identificador = @identificador";
+            var result = await conn.ExecuteScalarAsync<long>(sql, new { Status = (char)status, identificador = identificador });
+            return result > 0;
         }
     }
 }

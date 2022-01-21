@@ -97,7 +97,7 @@
                                     {{consulta.conveniado.endereco.bairro}} - {{consulta.conveniado.endereco.cep}}<br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                                     {{consulta.conveniado.endereco.cidade}} - {{consulta.conveniado.endereco.estado}}
                                 </p>
-                                <h5 class="card-title">Status: Em agendamento</h5>
+                                <h5 class="card-title">Status: {{getStatusNome(consulta.status)}}</h5>
                                 <br />
                                 <ul class="timeline" id="timeline" v-if="consulta.fluxo">
                                     <li class="li" v-for="passo in consulta.fluxo.passos" :class="recuperarPassoEstilo(consulta.fluxoProcesso,passo.Key)" @click="aprovar(recuperarPassoEstilo(consulta.fluxoProcesso,passo.Key),recuperarPassoId(consulta.fluxoProcesso,passo.Key))">
@@ -199,7 +199,17 @@
                     Command: toastr["danger"](error.responseText);
                 });
             },
-            recuperarPassoHorario: function (fluxoProcesso, passoIdenticador ) {
+            getStatusNome(status) {
+                if (status == 83)
+                    return 'Agendada'
+                if (status == 67)
+                    return 'Cancelada'
+                if (status == 82)
+                    return 'Realizada'
+                return 'Em agendamento'
+            },
+            recuperarPassoHorario: function (fluxoProcesso, passoIdenticador) {
+
                 var passo = fluxoProcesso.find(d => d.passo === passoIdenticador);
                 if (passo != null) {
                     if (passo.dataFim != null) {

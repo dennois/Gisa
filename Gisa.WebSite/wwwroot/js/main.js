@@ -30,7 +30,7 @@ const store = {
 
 Vue.filter('formatDate', function (value) {
     if (!value) return '-';
-    return moment(String(value)).format('DD/MM/yyyy hh:mm')
+    return moment(String(value)).utcOffset(-360,false).format('DD/MM/YYYY HH:mm')
 });
 
 
@@ -61,6 +61,7 @@ const router = new VueRouter({
         { path: '/associado', component: httpVueLoader('pages/Associado/Cadastro.vue'), meta: { authorize: ['ADMIN'] } },
         { path: '/aprovacao', component: httpVueLoader('pages/consulta/aprovacao.vue'), meta: { authorize: ['ADMIN'] } },
         { path: '/consultas', component: httpVueLoader('pages/Associado/Consulta.vue') },
+        { path: '/consultaOnline', component: httpVueLoader('pages/Associado/ConsultaOnline.vue') },
         { path: '/home', component: httpVueLoader('pages/Home.vue') },
         { path: '/consultaAgendar', component: httpVueLoader('pages/Associado/ConsultaAgendar.vue') },
         { path: '/exames', component: httpVueLoader('pages/Associado/Exame.vue') },

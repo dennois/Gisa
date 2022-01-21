@@ -38,7 +38,7 @@ namespace Gisa.Test
             consultaFluxo.Consulta = consulta;
             consultaFluxo.Status = status;
 
-            consultaFluxoService = new ConsultaFluxoService(null, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(null, _consultaFluxoValidator,null);
             Assert.ThrowsAsync<ArgumentException>(async () => await consultaFluxoService.IncluirAsync(consultaFluxo));
         }
 
@@ -57,7 +57,7 @@ namespace Gisa.Test
                 return new ConsultaFluxo() { Identificador = 1 };
             });
 
-            consultaFluxoService = new ConsultaFluxoService(null, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(null, _consultaFluxoValidator, null);
             var result = consultaFluxoService.IncluirAsync(consultaFluxo);
             Assert.IsNotNull(result);
         }
@@ -78,7 +78,7 @@ namespace Gisa.Test
                 return null;
             });
 
-            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator, null);
             Assert.ThrowsAsync<ArgumentException>(async () => await consultaFluxoService.AtualizarAsync(consultaFluxo));
         }
 
@@ -108,7 +108,7 @@ namespace Gisa.Test
                 return new ConsultaFluxo();
             });
 
-            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator, null);
             var result = consultaFluxoService.AtualizarAsync(consultaFluxo);
             Assert.IsNotNull(result);
         }
@@ -139,7 +139,7 @@ namespace Gisa.Test
                 return null;
             });
 
-            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator, null);
             var result = consultaFluxoService.AtualizarAsync(consultaFluxo);
             Assert.IsNotNull(result);
         }
@@ -154,7 +154,7 @@ namespace Gisa.Test
                 return new List<ConsultaFluxo>();
             });
 
-            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator, null);
             var result = consultaFluxoService.RecuperarResumoAsync(consulta).Result;
 
             Assert.IsNotNull(result);
@@ -169,7 +169,7 @@ namespace Gisa.Test
                 return null;
             });
 
-            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator);
+            consultaFluxoService = new ConsultaFluxoService(repository.Object, _consultaFluxoValidator, null);
             var result = consultaFluxoService.RecuperarResumoAsync(consulta).Result;
 
             Assert.IsNull(result);

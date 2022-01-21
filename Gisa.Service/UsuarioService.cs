@@ -11,7 +11,7 @@ namespace Gisa.Service
 {
     public class UsuarioService : IUsuarioService
     {
-        public UsuarioService(IUsuarioRepository usuarioRepository, IAtenticacaoService tokenService, AbstractValidator<Usuario> usuarioValidator)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IAtenticacaoService tokenService, IValidator<Usuario> usuarioValidator)
         {
             _usuarioRepository = usuarioRepository;
             _tokenService = tokenService;
@@ -20,7 +20,7 @@ namespace Gisa.Service
 
         readonly IUsuarioRepository _usuarioRepository;
         readonly IAtenticacaoService _tokenService;
-        readonly AbstractValidator<Usuario> _usuarioValidator;
+        readonly IValidator<Usuario> _usuarioValidator;
 
         public async Task<Usuario> AtualizarAsync(Usuario usuario)
         {

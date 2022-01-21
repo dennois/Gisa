@@ -9,8 +9,12 @@
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 class="h2">Consultas</h1>
                             <div class="btn-toolbar mb-2 mb-md-0">
+                                <router-link to="/consultaonline" class="btn btn-sm btn-primary" style="margin-right:10px;">
+                                    <i class="icon-aid-kit"></i>
+                                    Consulta On-line
+                                </router-link>
                                 <router-link to="/consultaagendar" class="btn btn-sm btn-primary">
-                                    <i class="icon-plus-circle "></i>
+                                    <i class="icon-calendar"></i>
                                     Agendar consulta
                                 </router-link>
                             </div>
