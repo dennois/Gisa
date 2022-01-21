@@ -2,7 +2,7 @@
 
 namespace Gisa.Kafka
 {
-    class Program
+    class KafkaClient
     {
         static void Main(string[] args)
         {

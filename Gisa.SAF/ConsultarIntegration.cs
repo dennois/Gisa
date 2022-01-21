@@ -23,5 +23,10 @@ namespace Gisa.SAF
         {
             await EnviarMensagem(consulta, "consulta-cancelar");
         }
+
+        public async Task AlterarStatusConsulta(Consulta consulta)
+        {
+            await EnviarMensagem(consulta, "consulta-status");
+        }
     }
 }

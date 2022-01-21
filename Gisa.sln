@@ -25,13 +25,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{B2E7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Service", "Gisa.Service\Gisa.Service.csproj", "{6F961334-BA52-4360-AE48-052B4FBCC82D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.SAF", "Gisa.SAF\Gisa.SAF.csproj", "{A9F5205F-4721-4707-B662-2514609676D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Adapter", "Gisa.SAF\Gisa.Adapter.csproj", "{A9F5205F-4721-4707-B662-2514609676D5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{46FAA39D-A5F1-4162-BB79-BC23E1651147}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Test", "Gisa.Test\Gisa.Test.csproj", "{DDCED10A-DD30-4188-AC08-74C4699795F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gisa.Kafka", "Gisa.Kafka\Gisa.Kafka.csproj", "{287117E6-439A-4537-B9F8-BB9DA765C22F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gisa.Kafka", "Gisa.Kafka\Gisa.Kafka.csproj", "{287117E6-439A-4537-B9F8-BB9DA765C22F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

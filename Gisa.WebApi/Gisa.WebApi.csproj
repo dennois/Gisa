@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gisa.Domain\Gisa.Domain.csproj" />
-    <ProjectReference Include="..\Gisa.SAF\Gisa.SAF.csproj" />
+    <ProjectReference Include="..\Gisa.SAF\Gisa.Adapter.csproj" />
     <ProjectReference Include="..\Gisa.Service\Gisa.Service.csproj" />
     <ProjectReference Include="..\Gisa.SqlRepository\Gisa.SqlRepository.csproj" />
   </ItemGroup>

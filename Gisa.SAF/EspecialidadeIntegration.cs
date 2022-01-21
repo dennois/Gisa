@@ -3,6 +3,7 @@ using Gisa.Domain.Interfaces.Integration;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,18 +18,22 @@ namespace Gisa.SAF
 
         public EspecialidadeIntegration(IConfiguration configuration)
         {
-            this._configuration = configuration;
-            serviceBusConnectionString = _configuration.GetConnectionString("AzureBusConnectionString");
+           
+        }
+
+        public Task AtualizarEspecialidade(Especialidade especialidade)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task IncluirEspecialidade(Especialidade especialidade)
         {
-            var client = new QueueClient(serviceBusConnectionString, _queueName, ReceiveMode.PeekLock);
-            string messageBody = JsonSerializer.Serialize(especialidade);
-            var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+            throw new NotImplementedException();
+        }
 
-            await client.SendAsync(message);
-            await client.CloseAsync();
+        public Task<IEnumerable<Especialidade>> RecuperarEspecialidades()
+        {
+            throw new NotImplementedException();
         }
     }
 }
