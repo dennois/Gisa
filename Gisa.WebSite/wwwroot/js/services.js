@@ -166,7 +166,8 @@ const api = {
 	FluxoSalvar: function (fluxo) {
 		return $.ajax({
 			type: "POST",
-			url: "https://localhost:44351/api/fluxo/",
+			//url: "https://localhost:44351/api/fluxo/",
+			url: "https://gisawebapi.azurewebsites.net/api/fluxo/",
 			dataType: "json",
 			contentType: "application/json",
 			data: JSON.stringify(fluxo),
@@ -176,7 +177,8 @@ const api = {
 	FluxoRecuperar: function (codigo) {
 		return $.ajax({
 			type: "Get",
-			url: "https://localhost:44351/api/fluxo/" + codigo,
+			//url: "https://localhost:44351/api/fluxo/" + codigo,
+			url: "https://gisawebapi.azurewebsites.net/api/fluxo/" + codigo,
 			headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') }
 		});
 	},
