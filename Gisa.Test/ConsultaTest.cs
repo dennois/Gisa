@@ -117,6 +117,165 @@ namespace Gisa.Test
         }
 
         [TestCase(1, 1, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
+        [Test]
+        public void Nao_Deve_Agendar_Consulta_sem_fluxo(long? idAssociado, long? iEspecialidade, long? iConveniado, long? iPrestador, DateTime agendamento, string anamnese, string prescricaoMedica, Enums.ConsultaStatus status)
+        {
+            Associado associado = null;
+            if (idAssociado.HasValue)
+                associado = new Associado() { Identificador = idAssociado.Value };
+
+            Especialidade especialidade = null;
+            if (iEspecialidade.HasValue)
+                especialidade = new Especialidade() { Identificador = iEspecialidade.Value };
+
+            Conveniado conveniado = null;
+            if (iConveniado.HasValue)
+                conveniado = new Conveniado() { Identificador = iConveniado.Value };
+
+            Prestador prestador = null;
+            if (iPrestador.HasValue)
+                prestador = new Prestador() { Identificador = iPrestador.Value };
+
+            var associadoService = new Mock<IAssociadoService>();
+            associadoService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            associadoService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Associado();
+            });
+
+            var especialidadeService = new Mock<IEspecialidadeService>();
+            especialidadeService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            especialidadeService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Especialidade();
+            });
+
+            var conveniadoService = new Mock<IConveniadoService>();
+            conveniadoService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            conveniadoService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Conveniado();
+            });
+
+            var prestadorService = new Mock<IPrestadorService>();
+            prestadorService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            prestadorService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Prestador();
+            });
+
+            var consultaIntegration = new Mock<IConsultarIntegration>();
+            consultaIntegration.Setup(m => m.AgendarConsulta(It.IsAny<Consulta>()));
+
+            var fluxoService = new Mock<IFluxoService>();
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("999")).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("CONSULTA")).ReturnsAsync(() =>
+            {
+                return null;
+            });
+
+            Consulta consulta = new Consulta(associado, especialidade, conveniado, prestador, agendamento, anamnese, prescricaoMedica, status);
+            consultaService = new ConsultaService(null, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, consultaIntegration.Object, fluxoService.Object, null);
+            Assert.ThrowsAsync<ArgumentException>(async () => await consultaService.AgendarAsync(consulta));
+        }
+
+        [TestCase(1, 1, 1, 1, "2000-01-01", "anamnese", "prescricaoMedica", 'A')]
+        public void Nao_Deve_Agendar_Consulta_com_Associado_invalido(long? idAssociado, long? iEspecialidade, long? iConveniado, long? iPrestador, DateTime agendamento, string anamnese, string prescricaoMedica, Enums.ConsultaStatus status)
+        {
+            Associado associado = null;
+            if (idAssociado.HasValue)
+                associado = new Associado() { Identificador = idAssociado.Value };
+
+            Especialidade especialidade = null;
+            if (iEspecialidade.HasValue)
+                especialidade = new Especialidade() { Identificador = iEspecialidade.Value };
+
+            Conveniado conveniado = null;
+            if (iConveniado.HasValue)
+                conveniado = new Conveniado() { Identificador = iConveniado.Value };
+
+            Prestador prestador = null;
+            if (iPrestador.HasValue)
+                prestador = new Prestador() { Identificador = iPrestador.Value };
+
+            var associadoService = new Mock<IAssociadoService>();
+            associadoService.Setup(m => m.RecuperarPorUsuarioAsync(It.IsAny<long>())).ReturnsAsync(() =>
+            {
+                return new Associado() { Identificador = 1 };
+            });
+            associadoService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            associadoService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Associado();
+            });
+
+            var especialidadeService = new Mock<IEspecialidadeService>();
+            especialidadeService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            especialidadeService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Especialidade();
+            });
+
+            var conveniadoService = new Mock<IConveniadoService>();
+            conveniadoService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            conveniadoService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Conveniado();
+            });
+
+            var prestadorService = new Mock<IPrestadorService>();
+            prestadorService.Setup(m => m.RecuperarPorIdAsync(999)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            prestadorService.Setup(m => m.RecuperarPorIdAsync(1)).ReturnsAsync(() =>
+            {
+                return new Prestador();
+            });
+
+            var consultaIntegration = new Mock<IConsultarIntegration>();
+            consultaIntegration.Setup(m => m.AgendarConsulta(It.IsAny<Consulta>()));
+
+            var fluxoService = new Mock<IFluxoService>();
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("999")).ReturnsAsync(() =>
+            {
+                return null;
+            });
+            fluxoService.Setup(m => m.RecuperarPorCodigoAsync("CONSULTA")).ReturnsAsync(() =>
+            {
+                return new Fluxo();
+            });
+
+            Consulta consulta = new Consulta(associado, especialidade, conveniado, prestador, agendamento, anamnese, prescricaoMedica, status);
+            consultaService = new ConsultaService(null, _consultaValidator, associadoService.Object, especialidadeService.Object, conveniadoService.Object, prestadorService.Object, consultaIntegration.Object, fluxoService.Object, null);
+            Assert.ThrowsAsync<ArgumentException>(async () => await consultaService.AgendarAsync(consulta));
+        }
+
+        [TestCase(1, 1, 1, 1, "2100-01-01", "anamnese", "prescricaoMedica", 'A')]
         public void Deve_Agendar_Consulta_com_Dados_validos(long? idAssociado, long? iEspecialidade, long? iConveniado, long? iPrestador, DateTime agendamento, string anamnese, string prescricaoMedica, Enums.ConsultaStatus status)
         {
             Associado associado = null;
@@ -415,7 +574,10 @@ namespace Gisa.Test
             var consultaRepository = new Mock<IConsultaRepository>();
             consultaRepository.Setup(m => m.RecuperarResumoAsync(identificador)).ReturnsAsync(() =>
             {
-                return new List<Consulta>();
+
+                var result = new List<Consulta>();
+                result.Add(new Consulta());
+                return result;
             });
 
             var fluxoService = new Mock<IFluxoService>();
@@ -461,6 +623,35 @@ namespace Gisa.Test
             var consulta = consultaService.RecuperarResumoAsync(identificador).Result;
 
             Assert.IsNull(consulta);
+        }
+
+        [TestCase()]
+        public void Deve_Retornar_Consulta_com_Filtros_validos()
+        {
+            var consultaRepository = new Mock<IConsultaRepository>();
+            consultaRepository.Setup(m => m.RecuperarResumoAsync(It.IsAny<string>(), It.IsAny<long?>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(() =>
+            {
+                var result = new List<Consulta>();
+                result.Add(new Consulta());
+                return result;
+            });
+
+            var fluxoService = new Mock<IFluxoService>();
+            fluxoService.Setup(m => m.RecuperarPorConsultaAsync(It.IsAny<long>())).ReturnsAsync(() =>
+            {
+                return new Fluxo();
+            });
+
+            var consultaFluxoService = new Mock<IConsultaFluxoService>();
+            consultaFluxoService.Setup(m => m.RecuperarResumoAsync(It.IsAny<long>())).ReturnsAsync(() =>
+            {
+                return null;
+            });
+
+            consultaService = new ConsultaService(consultaRepository.Object, _consultaValidator, null, null, null, null, null, fluxoService.Object, consultaFluxoService.Object);
+            var consulta = consultaService.RecuperarResumoAsync("CON",null,"SP","Sao Paulo","A").Result;
+
+            Assert.IsNotNull(consulta);
         }
     }
 }

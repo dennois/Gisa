@@ -91,6 +91,40 @@ namespace Gisa.Test
             associado.Status = Enums.AssociadoStatus.Ativo;
             associado.Usuario = 1;
 
+            Boleto boleto = new Boleto();
+            boleto.AnoReferencia = 2022;
+            boleto.Associado = new Associado() {  Identificador = 1};
+            boleto.DataVencimento = DateTime.Now;
+            boleto.MesReferencia = 2;
+            boleto.Status =  Enums.BoletoStatus.Pendente;
+            boleto.Valor = (decimal)100.52;
+
+            Carteirinha carteirinha = new Carteirinha();
+            carteirinha.Associado = new Associado() { Identificador = 1 };
+            carteirinha.Codigo = "COD";
+            carteirinha.Empresa = new Empresa() { Identificador = 1};
+            carteirinha.Identificador = 1;
+            carteirinha.OpcaoOdontologico = true;
+            carteirinha.PlanoContratado = new Plano() { Identificador = 1, Codigo="",Nome="",Tipo= Enums.PlanoTipo.Apartamento,ValorMensalidade = 100 };
+            carteirinha.Validade = DateTime.Now;
+
+            Exame exame = new Exame();
+            exame.Associado = new Associado() { Identificador = 1 };
+            exame.DataAutorizacao = DateTime.Now;
+            exame.Guia = "-";
+            exame.Identificador = 1;
+            exame.Observacao = "-";
+            exame.ProcedimentoCodigo = "OCD";
+            exame.Status = Enums.ExameStatus.AguardandoAutorizacao;
+
+            Empresa empresa = new Empresa();
+            empresa.Cnpj = "0000";
+            empresa.Endereco = new Localizacao();
+            empresa.Identificador = 1;
+            empresa.NomeFantasia = "Fantasia";
+            empresa.Porte = Enums.EmpresaPorte.Grande;
+            empresa.RazaoSocial = "Social";
+
             associadoService = new AssociadoService(null, _associadoValidator);
             Assert.ThrowsAsync<ArgumentException>(async () => await associadoService.AtualizarAsync(associado));
         }

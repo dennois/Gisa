@@ -60,9 +60,9 @@ namespace Gisa.Service
             return await _prestadorRepository.RecuperarPorIdAsync(entityId);
         }
 
-        public async Task ExcluirAsync(long entityId)
+        public async Task<bool> ExcluirAsync(long entityId)
         {
-            await _prestadorRepository.ExcluirAsync(entityId);
+            return await  _prestadorRepository.ExcluirAsync(entityId);
         }
 
         public async Task<IEnumerable<Prestador>> RecuperarResumo(long conveniado, long? especialidade)

@@ -15,6 +15,6 @@ namespace Gisa.Domain.Interfaces.Service
 
         Task<IEnumerable<Prestador>> RecuperarResumo(long conveniado, long? especialidade);
 
-        Task ExcluirAsync(long entityId);
+        Task<bool> ExcluirAsync(long entityId);
     }
 }

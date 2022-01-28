@@ -14,7 +14,7 @@ namespace Gisa.Domain.Interfaces.Service
 
         public Task<Conveniado> RecuperarPorIdAsync(long entityId);
 
-        public Task ExcluirAsync(long entityId);
+        public Task<bool> ExcluirAsync(long entityId);
 
         public Task<IEnumerable<Conveniado>> RecuperarResumo(ConveniadoFiltro filtro);
 

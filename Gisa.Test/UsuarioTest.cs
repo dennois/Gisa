@@ -112,5 +112,46 @@ namespace Gisa.Test
             var result = usuarioService.AtualizarAsync(usuario).Result;
             Assert.IsNotNull(result);
         }
+
+        [TestCase("login", "senha")]
+        [Test]
+        public void Deve_Recuperar_Usuario_com_Dados_validos(string login, string senha)
+        {
+            var usuarioRepository = new Mock<IUsuarioRepository>();
+            usuarioRepository.Setup(m => m.RecuperarPorLogin(login, senha)).ReturnsAsync(() =>
+            {
+                return new Usuario() { Identificador = 1 };
+            });
+
+            AtenticacaoService atenticacaoService = new AtenticacaoService(null);
+            atenticacaoService.CriptografarSenha(senha);
+
+            var tokenService = new Mock<IAtenticacaoService>();
+            tokenService.Setup(m => m.CriptografarSenha(senha)).Returns(() =>
+            {
+                return senha;
+            });
+
+            usuarioService = new UsuarioService(usuarioRepository.Object, tokenService.Object, _usuarioValidator);
+            var result = usuarioService.RecuperarAsync(login, senha).Result;
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase(1)]
+        [Test]
+        public void Deve_Recuperar_Usuario_com_identificador_valido(long identificador)
+        {
+            var usuarioRepository = new Mock<IUsuarioRepository>();
+            usuarioRepository.Setup(m => m.RecuperarPorIdAsync(identificador)).ReturnsAsync(() =>
+            {
+                return new Usuario() { Identificador = 1 };
+            });
+
+            var tokenService = new Mock<IAtenticacaoService>();
+
+            usuarioService = new UsuarioService(usuarioRepository.Object, tokenService.Object, _usuarioValidator);
+            var result = usuarioService.RecuperarPorIdAsync(identificador).Result;
+            Assert.IsNotNull(result);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gisa.Domain;
+using Gisa.Domain.DTO;
 using Gisa.Domain.Interfaces.Repository;
 using Gisa.Domain.Interfaces.Service;
 using Gisa.Domain.Validation;
@@ -60,7 +61,7 @@ namespace Gisa.Test
             var conveniadoRepository = new Mock<IConveniadoRepository>();
             conveniadoRepository.Setup(m => m.IncluirAsync(It.IsAny<Conveniado>())).ReturnsAsync(() =>
             {
-                return new Conveniado() { Identificador = 1 };
+                return new Conveniado() { Identificador = 1 , DataInclusao = DateTime.Now};
             });
 
             var especialidadeRepository = new Mock<IEspecialidadeRepository>();
@@ -68,6 +69,8 @@ namespace Gisa.Test
 
             conveniadoService = new ConveniadoService(conveniadoRepository.Object, especialidadeRepository.Object, localizacaoRepository.Object, _conveniadoValidator);
             var result = conveniadoService.IncluirAsync(conveniado).Result;
+            var dt =result.DataInclusao;
+            var id = result.Identificador;
             Assert.IsNotNull(result);
         }
 
@@ -99,7 +102,7 @@ namespace Gisa.Test
             var localizacaoRepository = new Mock<ILocalizacaoRepository>();
             localizacaoRepository.Setup(m => m.AtualizarAsync(It.IsAny<Localizacao>())).ReturnsAsync(() =>
             {
-                return new Localizacao() { Identificador = 1 };
+                return new Localizacao() { Identificador = 1, DataAlteracao = DateTime.Now,Bairro="",CEP="",Cidade="",Complemento ="",Estado ="",Latitude=0,Longitude=0,Numero="" };
             });
 
             var conveniadoRepository = new Mock<IConveniadoRepository>();
@@ -114,6 +117,7 @@ namespace Gisa.Test
 
             conveniadoService = new ConveniadoService(conveniadoRepository.Object, especialidadeRepository.Object, localizacaoRepository.Object, _conveniadoValidator);
             var result = conveniadoService.AtualizarAsync(conveniado).Result;
+            var dt = result.DataAlteracao;
             Assert.IsNotNull(result);
         }
 
@@ -171,6 +175,101 @@ namespace Gisa.Test
             conveniadoService = new ConveniadoService(conveniadoRepository.Object, especialidadeRepository.Object, localizacaoRepository.Object, _conveniadoValidator);
             var result = conveniadoService.RecuperarPorIdAsync(identificador).Result;
             Assert.IsNull(result);
+        }
+
+        [TestCase()]
+        public void Deve_Retornar_Conveniados_com_Filtto_valido()
+        {
+            ConveniadoFiltro filtro = new ConveniadoFiltro();
+            filtro.Cidade = "SP";
+            filtro.Estado = "SP";
+            filtro.ConveniadoTipo = Domain.Enum.Enums.ConveniadoTipo.Clinica;
+            filtro.Especialidade = 1;
+            filtro.Nome = "-";
+            var conveniadoRepository = new Mock<IConveniadoRepository>();
+            conveniadoRepository.Setup(m => m.RecuperarResumo(filtro)).ReturnsAsync(() =>
+            {
+                string c = filtro.Cidade;
+                var tipo = filtro.ConveniadoTipo;
+                var espec = filtro.Especialidade;
+                c = filtro.Estado;
+                c = filtro.Nome;
+                return new List<Conveniado>();
+            });
+
+            conveniadoService = new ConveniadoService(conveniadoRepository.Object, null, null, _conveniadoValidator);
+            var result = conveniadoService.RecuperarResumo(filtro).Result;
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase("SP")]
+        public void Deve_Retornar_Cidades_com_Filtro_estado_valido(string estado)
+        {
+            var localizacaoRepository = new Mock<ILocalizacaoRepository>();
+            localizacaoRepository.Setup(m => m.RecuperarCidades(estado)).ReturnsAsync(() =>
+            {
+                return new List<string>();
+            });
+
+            conveniadoService = new ConveniadoService(null, null, localizacaoRepository.Object, _conveniadoValidator);
+            var result = conveniadoService.RecuperarCidades(estado).Result;
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase("XX")]
+        public void Nao_Deve_Retornar_Cidades_com_Filtro_estado_valido(string estado)
+        {
+            var localizacaoRepository = new Mock<ILocalizacaoRepository>();
+            localizacaoRepository.Setup(m => m.RecuperarCidades(estado)).ReturnsAsync(() =>
+            {
+                return null;
+            });
+
+            conveniadoService = new ConveniadoService(null, null, localizacaoRepository.Object, _conveniadoValidator);
+            var result = conveniadoService.RecuperarCidades(estado).Result;
+            Assert.IsNull(result);
+        }
+
+        [TestCase()]
+        public void Deve_Retornar_Estados()
+        {
+            var localizacaoRepository = new Mock<ILocalizacaoRepository>();
+            localizacaoRepository.Setup(m => m.RecuperarEstados()).ReturnsAsync(() =>
+            {
+                return new List<string>();
+            });
+
+            conveniadoService = new ConveniadoService(null, null, localizacaoRepository.Object, _conveniadoValidator);
+            var result = conveniadoService.RecuperarEstados().Result;
+            Assert.IsNotNull(result);
+        }
+
+        [TestCase(1)]
+        public void Deve_Excluir_conveniado(long identificador)
+        {
+            var  conveniadoRepository = new Mock<IConveniadoRepository>();
+            conveniadoRepository.Setup(m => m.ExcluirAsync(identificador)).ReturnsAsync(() =>
+            {
+                return true;
+            });
+
+            conveniadoService = new ConveniadoService(conveniadoRepository.Object, null, null, _conveniadoValidator);
+            var result = conveniadoService.ExcluirAsync(identificador).Result;
+            Assert.IsTrue(result);
+        }
+
+        [TestCase(2)]
+        public void Nao_Deve_Excluir_conveniado(long identificador)
+        {
+            var conveniadoRepository = new Mock<IConveniadoRepository>();
+            conveniadoRepository.Setup(m => m.ExcluirAsync(identificador)).ReturnsAsync(() =>
+            {
+                return false;
+            });
+
+            conveniadoService = new ConveniadoService(conveniadoRepository.Object, null, null, _conveniadoValidator);
+            var result = conveniadoService.ExcluirAsync(identificador).Result;
+            Assert.IsFalse(result);
         }
     }
 }
